@@ -15,17 +15,12 @@ metrics: true
 # 检查更新为异步操作，绝不会影响性能与使用体验。
 check-update: true
 
-stroage:
-  # 存储方式，可选 [ yaml | json | h2 | mysql(推荐) ]
-  method: yaml
+log-stroage:
+  # 是否启用日志记录存储
+  # 可用于追踪物品的发放、领取情况与执行记录。
+  enable: true
 
-  # 选择 yaml/json 存储方式时的存储路径
-  # 默认为相对路径，相对于插件生成的配置文件夹下的路径
-  # 支持绝对路径，如 “/var/data/item-commands/"(linux) 或 "D:\data\item-commands\"(windows)
-  # 使用绝对路径时请注意权限问题
-  file-path: data
-
-  # 选择 mysql/mariadb 存储方式时的数据库配置
+  # 启用日志记录存储时的数据库配置
   database:
     # 数据库驱动路径，默认为 MySQL
     driver: "com.mysql.cj.jdbc.Driver"
