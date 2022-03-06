@@ -8,7 +8,6 @@ import cc.carm.plugin.itemcommands.manager.ConfigManager;
 import cc.carm.plugin.itemcommands.util.JarResourceUtils;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
-import org.bukkit.event.Listener;
 
 import java.util.Optional;
 
@@ -19,27 +18,6 @@ public class Main extends EasyPlugin {
     public Main() {
         super(new EasyPluginMessageProvider.zh_CN());
         instance = this;
-    }
-
-    /**
-     * 注册监听器
-     *
-     * @param listener 监听器
-     */
-    public static void regListener(Listener listener) {
-        Bukkit.getPluginManager().registerEvents(listener, getInstance());
-    }
-
-    public static void info(String... messages) {
-        getInstance().log(messages);
-    }
-
-    public static void severe(String... messages) {
-        getInstance().error(messages);
-    }
-
-    public static void debugging(String... messages) {
-        getInstance().debug(messages);
     }
 
     public static Main getInstance() {
@@ -75,7 +53,7 @@ public class Main extends EasyPlugin {
     @Override
     protected void shutdown() {
 
-        info("卸载监听器...");
+        log("卸载监听器...");
         Bukkit.getServicesManager().unregisterAll(this);
 
     }
@@ -88,5 +66,18 @@ public class Main extends EasyPlugin {
     @Override
     public void outputInfo() {
         Optional.ofNullable(JarResourceUtils.readResource(this.getResource("PLUGIN_INFO"))).ifPresent(this::log);
+    }
+
+
+    public static void info(String... messages) {
+        getInstance().log(messages);
+    }
+
+    public static void severe(String... messages) {
+        getInstance().error(messages);
+    }
+
+    public static void debugging(String... messages) {
+        getInstance().debug(messages);
     }
 }

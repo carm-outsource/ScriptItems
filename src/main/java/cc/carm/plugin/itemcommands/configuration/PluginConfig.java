@@ -16,8 +16,8 @@ public class PluginConfig {
             "check-update", Boolean.class, true
     );
 
-    public static final ConfigValue<String> STORAGE_METHOD = new ConfigValue<>(
-            "storage.method", String.class, "YAML"
+    public static final ConfigValue<Boolean> LOG_STORAGE = new ConfigValue<>(
+            "log-storage.enable", Boolean.class, true
     );
 
 }
