@@ -41,6 +41,9 @@
 
 详见代码源文件，将在首次启动时生成配置。
 
+## 使用统计
+[![bStats](https://bstats.org/signatures/bukkit/CommandItem.svg)](https://bstats.org/plugin/bukkit/CommandItem/14560)
+
 ## 支持与捐赠
 
 若您觉得本插件做的不错，您可以捐赠支持我！
