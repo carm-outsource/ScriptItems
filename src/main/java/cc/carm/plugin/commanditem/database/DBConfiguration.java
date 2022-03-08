@@ -1,4 +1,4 @@
-package cc.carm.plugin.itemcommands.database;
+package cc.carm.plugin.commanditem.database;
 
 import cc.carm.lib.easyplugin.configuration.values.ConfigValue;
 

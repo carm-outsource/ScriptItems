@@ -1,11 +1,11 @@
-package cc.carm.plugin.itemcommands;
+package cc.carm.plugin.commanditem;
 
 import cc.carm.lib.easyplugin.EasyPlugin;
 import cc.carm.lib.easyplugin.i18n.EasyPluginMessageProvider;
-import cc.carm.plugin.itemcommands.configuration.PluginConfig;
-import cc.carm.plugin.itemcommands.hooker.GHUpdateChecker;
-import cc.carm.plugin.itemcommands.manager.ConfigManager;
-import cc.carm.plugin.itemcommands.util.JarResourceUtils;
+import cc.carm.plugin.commanditem.configuration.PluginConfig;
+import cc.carm.plugin.commanditem.hooker.GHUpdateChecker;
+import cc.carm.plugin.commanditem.manager.ConfigManager;
+import cc.carm.plugin.commanditem.util.JarResourceUtils;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 

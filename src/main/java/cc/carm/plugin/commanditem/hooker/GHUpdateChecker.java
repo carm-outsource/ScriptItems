@@ -1,4 +1,4 @@
-package cc.carm.plugin.itemcommands.hooker;
+package cc.carm.plugin.commanditem.hooker;
 
 import cc.carm.lib.githubreleases4j.GithubReleases4J;
 

@@ -1,4 +1,4 @@
-package cc.carm.plugin.itemcommands.util;
+package cc.carm.plugin.commanditem.util;
 
 import cc.carm.lib.easysql.api.SQLManager;
 import cc.carm.lib.easysql.api.action.PreparedSQLUpdateAction;

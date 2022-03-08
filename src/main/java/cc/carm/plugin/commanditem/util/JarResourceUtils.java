@@ -1,4 +1,4 @@
-package cc.carm.plugin.itemcommands.util;
+package cc.carm.plugin.commanditem.util;
 
 import org.jetbrains.annotations.Nullable;
 

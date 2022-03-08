@@ -1,8 +1,8 @@
-package cc.carm.plugin.itemcommands.database;
+package cc.carm.plugin.commanditem.database;
 
 import cc.carm.lib.easysql.EasySQL;
 import cc.carm.lib.easysql.api.SQLManager;
-import cc.carm.plugin.itemcommands.Main;
+import cc.carm.plugin.commanditem.Main;
 
 import java.sql.SQLException;
 

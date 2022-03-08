@@ -1,10 +1,10 @@
-package cc.carm.plugin.itemcommands.manager;
+package cc.carm.plugin.commanditem.manager;
 
 import cc.carm.lib.easyplugin.configuration.file.FileConfig;
 import cc.carm.lib.easyplugin.configuration.language.MessagesConfig;
 import cc.carm.lib.easyplugin.configuration.language.MessagesInitializer;
-import cc.carm.plugin.itemcommands.Main;
-import cc.carm.plugin.itemcommands.configuration.PluginMessages;
+import cc.carm.plugin.commanditem.Main;
+import cc.carm.plugin.commanditem.configuration.PluginMessages;
 
 import java.io.IOException;
 

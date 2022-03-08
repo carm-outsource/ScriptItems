@@ -37,7 +37,7 @@
 
 详见源文件。
 
-### 消息配置文件 ([messages.yml](src/main/java/cc/carm/plugin/itemcommands/configuration/PluginMessages.java))
+### 消息配置文件 ([messages.yml](src/main/java/cc/carm/plugin/commanditem/configuration/PluginMessages.java))
 
 详见代码源文件，将在首次启动时生成配置。
 

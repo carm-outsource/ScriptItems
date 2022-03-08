@@ -1,5 +1,5 @@
-main: cc.carm.plugin.itemcommands.Main
-name: ItemCommands
+main: cc.carm.plugin.commanditem.Main
+name: CommandItem
 
 version: ${project.version}
 description: ${project.description}

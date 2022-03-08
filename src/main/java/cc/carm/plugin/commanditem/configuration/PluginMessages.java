@@ -1,4 +1,4 @@
-package cc.carm.plugin.itemcommands.configuration;
+package cc.carm.plugin.commanditem.configuration;
 
 
 import cc.carm.lib.easyplugin.configuration.language.MessagesRoot;
