@@ -1,6 +1,7 @@
 package cc.carm.plugin.commanditem.item;
 
 import cc.carm.plugin.commanditem.CommandItemAPI;
+import cc.carm.plugin.commanditem.Main;
 import cc.carm.plugin.commanditem.manager.ConfigManager;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSortedMap;
@@ -70,6 +71,15 @@ public class ItemSettings {
         return ImmutableSortedMap.copyOf(permissions);
     }
 
+
+    public @NotNull ItemRestrictions getRestrictions() {
+        return restrictions;
+    }
+
+    public ItemRestrictions.CheckResult checkRestrictions() {
+        return getRestrictions().check();
+    }
+
     @Unmodifiable
     public @NotNull Map<String, ItemActionGroup> getActions() {
         return ImmutableMap.copyOf(actions);
@@ -81,6 +91,7 @@ public class ItemSettings {
 
     public @Nullable ItemActionGroup getPlayerActions(@NotNull Player player) {
         String actionGroup = getPermissions().entrySet().stream()
+                .peek(entry -> Main.debugging("Checking permission: " + entry.getValue()))
                 .filter(entry -> player.hasPermission(entry.getValue()))
                 .map(Map.Entry::getKey).findFirst().orElse(null);
         return getActions().getOrDefault(actionGroup, getDefaultActions());

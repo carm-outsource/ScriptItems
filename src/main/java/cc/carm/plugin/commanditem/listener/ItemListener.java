@@ -3,11 +3,14 @@ package cc.carm.plugin.commanditem.listener;
 import cc.carm.plugin.commanditem.CommandItemAPI;
 import cc.carm.plugin.commanditem.item.CommandItem;
 import cc.carm.plugin.commanditem.item.ItemActionGroup;
+import cc.carm.plugin.commanditem.item.ItemRestrictions;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -32,6 +35,12 @@ public class ItemListener implements Listener {
         if (commandItem == null) return;
 
         Player player = event.getPlayer();
+
+        if (commandItem.getConfiguration().checkRestrictions() != ItemRestrictions.CheckResult.AVAILABLE) {
+            // TODO 给玩家发消息告诉他还不能用
+            return;
+        }
+
         ItemActionGroup actions = commandItem.getConfiguration().getPlayerActions(player);
 
         if (actions == null) return;
@@ -63,6 +72,21 @@ public class ItemListener implements Listener {
         if (event.getEntity().getType() == EntityType.PLAYER) return;
 
         ItemStack item = event.getItem().getItemStack();
+        if (CommandItemAPI.getItemsManager().isCommandItem(item)) {
+            event.setCancelled(true);
+        }
+    }
+
+    /**
+     * 阻止物品被烧掉
+     *
+     * @param event 伤害事件
+     */
+    @EventHandler
+    public void onEntityDamage(EntityDamageEvent event) {
+        if (event.getEntity().getType() != EntityType.DROPPED_ITEM) return;
+        Item droppedItem = ((org.bukkit.entity.Item) event.getEntity());
+        ItemStack item = droppedItem.getItemStack();
         if (CommandItemAPI.getItemsManager().isCommandItem(item)) {
             event.setCancelled(true);
         }
