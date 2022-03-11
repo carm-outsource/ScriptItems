@@ -38,6 +38,10 @@ public class Main extends EasyPlugin {
             return false;
         }
 
+        info("加载物品配置...");
+        this.itemsManager = new ItemsManager();
+        this.itemsManager.initialize();
+
         info("注册指令...");
 
         info("注册监听器...");
@@ -76,8 +80,7 @@ public class Main extends EasyPlugin {
     public void outputInfo() {
         Optional.ofNullable(JarResourceUtils.readResource(this.getResource("PLUGIN_INFO"))).ifPresent(this::log);
     }
-
-
+    
     public static void info(String... messages) {
         getInstance().log(messages);
     }

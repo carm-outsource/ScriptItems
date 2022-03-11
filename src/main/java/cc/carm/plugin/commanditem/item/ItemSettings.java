@@ -50,14 +50,19 @@ public class ItemSettings {
         return name;
     }
 
-    public @Nullable ItemStack getItemStack(int amount) {
-        ItemStack originalItem = this.item == null ? null : this.item.getItemStack(amount);
+    public ItemStackConfig getItemConfig() {
+        return item;
+    }
+
+    public @Nullable ItemStack generateItem(int amount) {
+        ItemStackConfig config = getItemConfig();
+        ItemStack originalItem = config == null ? null : config.getItemStack(amount);
         if (originalItem == null) return null;
         return applyItem(originalItem);
     }
 
-    public @Nullable ItemStack getItemStack() {
-        return getItemStack(1);
+    public @Nullable ItemStack generateItem() {
+        return generateItem(1);
     }
 
     @Unmodifiable

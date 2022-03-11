@@ -1,5 +1,6 @@
 package cc.carm.plugin.commanditem.item;
 
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -13,6 +14,10 @@ public class ItemActionGroup {
 
     public ItemActionGroup(List<ItemAction> actions) {
         this.actions = actions;
+    }
+
+    public void execute(Player player) {
+        actions.forEach(action -> action.execute(player));
     }
 
     public static @NotNull ItemActionGroup read(@NotNull List<String> actionsString) {

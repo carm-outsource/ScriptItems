@@ -5,6 +5,7 @@ import cc.carm.plugin.commanditem.configuration.PluginConfig;
 import cc.carm.plugin.commanditem.item.CommandItem;
 import cc.carm.plugin.commanditem.item.ItemSettings;
 import com.google.common.collect.ImmutableMap;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -102,7 +103,7 @@ public class ItemsManager {
     }
 
     public @Nullable CommandItem parseCommandItem(@Nullable ItemStack item) {
-        if (item == null) return null;
+        if (item == null || item.getType() == Material.AIR) return null;
         if (!item.hasItemMeta()) return null;
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return null;

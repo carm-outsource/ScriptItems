@@ -1,10 +1,19 @@
 package cc.carm.plugin.commanditem.listener;
 
+import cc.carm.plugin.commanditem.CommandItemAPI;
+import cc.carm.plugin.commanditem.item.CommandItem;
+import cc.carm.plugin.commanditem.item.ItemActionGroup;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.Arrays;
 
 public class ItemListener implements Listener {
 
@@ -16,6 +25,18 @@ public class ItemListener implements Listener {
      */
     @EventHandler
     public void onClick(PlayerInteractEvent event) {
+        if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+
+        ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
+        CommandItem commandItem = CommandItemAPI.getItemsManager().parseCommandItem(item);
+        if (commandItem == null) return;
+
+        Player player = event.getPlayer();
+        ItemActionGroup actions = commandItem.getConfiguration().getPlayerActions(player);
+
+        if (actions == null) return;
+
+        actions.execute(player);
 
     }
 
@@ -26,7 +47,10 @@ public class ItemListener implements Listener {
      */
     @EventHandler
     public void onCraft(CraftItemEvent event) {
+        boolean shouldCancel = Arrays.stream(event.getInventory().getMatrix())
+                .anyMatch(matrix -> CommandItemAPI.getItemsManager().isCommandItem(matrix));
 
+        if (shouldCancel) event.setCancelled(true);
     }
 
     /**
@@ -36,7 +60,12 @@ public class ItemListener implements Listener {
      */
     @EventHandler
     public void onPickup(EntityPickupItemEvent event) {
+        if (event.getEntity().getType() == EntityType.PLAYER) return;
 
+        ItemStack item = event.getItem().getItemStack();
+        if (CommandItemAPI.getItemsManager().isCommandItem(item)) {
+            event.setCancelled(true);
+        }
     }
 
 
