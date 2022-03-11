@@ -2,6 +2,7 @@ package cc.carm.plugin.commanditem;
 
 import cc.carm.lib.easyplugin.EasyPlugin;
 import cc.carm.lib.easyplugin.i18n.EasyPluginMessageProvider;
+import cc.carm.plugin.commanditem.command.CMDItemsCommand;
 import cc.carm.plugin.commanditem.configuration.PluginConfig;
 import cc.carm.plugin.commanditem.hooker.GHUpdateChecker;
 import cc.carm.plugin.commanditem.listener.ItemListener;
@@ -43,6 +44,7 @@ public class Main extends EasyPlugin {
         this.itemsManager.initialize();
 
         info("注册指令...");
+        registerCommand("CommandItem", new CMDItemsCommand());
 
         info("注册监听器...");
         regListener(new ItemListener());
@@ -80,7 +82,7 @@ public class Main extends EasyPlugin {
     public void outputInfo() {
         Optional.ofNullable(JarResourceUtils.readResource(this.getResource("PLUGIN_INFO"))).ifPresent(this::log);
     }
-    
+
     public static void info(String... messages) {
         getInstance().log(messages);
     }
