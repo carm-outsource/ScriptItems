@@ -3,15 +3,12 @@ package cc.carm.plugin.commanditem.item;
 import cc.carm.plugin.commanditem.CommandItemAPI;
 import cc.carm.plugin.commanditem.Main;
 import cc.carm.plugin.commanditem.manager.ConfigManager;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSortedMap;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.annotations.Unmodifiable;
 
 import java.io.File;
 import java.util.Map;
@@ -41,9 +38,6 @@ public class ItemSettings {
         this.defaultActions = defaultActions;
         this.permissions = permissions;
         this.actions = actions;
-
-        permissions.forEach((key, value) -> Main.debugging("    Permission: " + key + " = " + value));
-
     }
 
     public @NotNull String getIdentifier() {
@@ -69,9 +63,8 @@ public class ItemSettings {
         return generateItem(1);
     }
 
-    @Unmodifiable
     public @NotNull Map<String, String> getPermissions() {
-        return ImmutableSortedMap.copyOf(permissions);
+        return this.permissions;
     }
 
 
@@ -83,9 +76,8 @@ public class ItemSettings {
         return getRestrictions().check();
     }
 
-    @Unmodifiable
     public @NotNull Map<String, ItemActionGroup> getActions() {
-        return ImmutableMap.copyOf(actions);
+        return this.actions;
     }
 
     public @Nullable ItemActionGroup getDefaultActions() {
@@ -94,9 +86,9 @@ public class ItemSettings {
 
     public @Nullable ItemActionGroup getPlayerActions(@NotNull Player player) {
         String actionGroup = getPermissions().entrySet().stream()
-                .peek(entry -> Main.debugging("Checking permission: " + entry.getValue()))
                 .filter(entry -> player.hasPermission(entry.getValue()))
                 .map(Map.Entry::getKey).findFirst().orElse(null);
+        Main.debugging(" Player " + player.getName() + " will execute " + actionGroup);
         return getActions().getOrDefault(actionGroup, getDefaultActions());
     }
 
