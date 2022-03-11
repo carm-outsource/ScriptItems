@@ -50,9 +50,8 @@ public class ItemsManager {
 
         String[] filesList = prefixDataFolder.list();
         if (filesList == null || filesList.length < 1) {
-            Main.severe("配置文件夹中暂无任何物品，请检查。");
-            Main.severe("There's no configured items.");
-            Main.severe("Path: " + prefixDataFolder.getAbsolutePath());
+            Main.severe("   配置文件夹中暂无任何物品，请检查。");
+            Main.severe("   There's no configured items.");
             return;
         }
 
@@ -70,7 +69,6 @@ public class ItemsManager {
                 try {
                     ItemSettings item = ItemSettings.load(file);
                     Main.info(" 完成物品加载 [#" + item.getIdentifier() + "] " + item.getName() + " (" + fileName + ")");
-                    Main.info(" Successfully loaded [#" + item.getIdentifier() + "] " + item.getName() + " (" + fileName + ")");
                     dataItems.put(item.getIdentifier(), item);
                 } catch (Exception ex) {
                     Main.severe("在加载物品 " + file.getAbsolutePath() + " 时出错，请检查配置！");

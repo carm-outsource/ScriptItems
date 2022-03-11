@@ -41,6 +41,9 @@ public class ItemSettings {
         this.defaultActions = defaultActions;
         this.permissions = permissions;
         this.actions = actions;
+
+        permissions.forEach((key, value) -> Main.debugging("    Permission: " + key + " = " + value));
+
     }
 
     public @NotNull String getIdentifier() {
