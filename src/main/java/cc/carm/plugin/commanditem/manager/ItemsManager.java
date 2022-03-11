@@ -32,7 +32,7 @@ public class ItemsManager {
         this.idKey = new NamespacedKey(Main.getInstance(), "id");
         this.uuidKey = new NamespacedKey(Main.getInstance(), "uuid");
         loadItems();
-        Main.info("共加载了 " + items.size() + " 个前缀。");
+        Main.info("成功加载了 " + items.size() + " 个指令物品。");
     }
 
     public void loadItems() {
@@ -65,11 +65,12 @@ public class ItemsManager {
 
         if (files.size() > 0) {
             for (File file : files) {
-                if (file.getName().startsWith(".")) continue;
+                String fileName = file.getName();
+                if (fileName.startsWith(".")) continue;
                 try {
                     ItemSettings item = ItemSettings.load(file);
-                    Main.info("完成物品加载 " + item.getIdentifier() + " : " + item.getName());
-                    Main.info("Successfully loaded " + item.getIdentifier() + " : " + item.getName());
+                    Main.info(" 完成物品加载 [#" + item.getIdentifier() + "] " + item.getName() + " (" + fileName + ")");
+                    Main.info(" Successfully loaded [#" + item.getIdentifier() + "] " + item.getName() + " (" + fileName + ")");
                     dataItems.put(item.getIdentifier(), item);
                 } catch (Exception ex) {
                     Main.severe("在加载物品 " + file.getAbsolutePath() + " 时出错，请检查配置！");
