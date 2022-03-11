@@ -1,9 +1,9 @@
 package cc.carm.plugin.commanditem.manager;
 
 import cc.carm.plugin.commanditem.Main;
-import cc.carm.plugin.commanditem.configuration.PluginConfig;
 import cc.carm.plugin.commanditem.item.CommandItem;
 import cc.carm.plugin.commanditem.item.ItemSettings;
+import cc.carm.plugin.commanditem.util.JarResourceUtils;
 import com.google.common.collect.ImmutableMap;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -38,7 +38,14 @@ public class ItemsManager {
     public void loadItems() {
         File prefixDataFolder = getStorageFolder();
         if (!prefixDataFolder.isDirectory() || !prefixDataFolder.exists()) {
-            boolean success = prefixDataFolder.mkdir();
+            try {
+                JarResourceUtils.copyFolderFromJar(
+                        FOLDER_NAME, prefixDataFolder,
+                        JarResourceUtils.CopyOption.COPY_IF_NOT_EXIST
+                );
+            } catch (Exception ex) {
+                boolean success = prefixDataFolder.mkdirs();
+            }
         }
 
         String[] filesList = prefixDataFolder.list();
@@ -58,6 +65,7 @@ public class ItemsManager {
 
         if (files.size() > 0) {
             for (File file : files) {
+                if (file.getName().startsWith(".")) continue;
                 try {
                     ItemSettings item = ItemSettings.load(file);
                     Main.info("完成物品加载 " + item.getIdentifier() + " : " + item.getName());
@@ -75,11 +83,7 @@ public class ItemsManager {
     }
 
     private static File getStorageFolder() {
-        if (PluginConfig.CustomStorage.ENABLE.get()) {
-            return new File(PluginConfig.CustomStorage.PATH.get());
-        } else {
-            return new File(Main.getInstance().getDataFolder() + File.separator + FOLDER_NAME);
-        }
+        return new File(Main.getInstance().getDataFolder(), FOLDER_NAME);
     }
 
     @Unmodifiable
