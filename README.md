@@ -1,15 +1,15 @@
 ```text
- ___ _             ___                              _    
-|_ _| |_ ___ _ __ / __|___ _ __  _ __  __ _ _ _  __| |___
- | ||  _/ -_) '  \ (__/ _ \ '  \| '  \/ _` | ' \/ _` (_-<
-|___|\__\___|_|_|_\___\___/_|_|_|_|_|_\__,_|_||_\__,_/__/                                        
+  ___                              _ ___ _             
+ / __|___ _ __  _ __  __ _ _ _  __| |_ _| |_ ___ _ __  
+| (__/ _ \ '  \| '  \/ _` | ' \/ _` || ||  _/ -_) '  \ 
+ \___\___/_|_|_|_|_|_\__,_|_||_\__,_|___|\__\___|_|_|_|                               
 ```
 
-# ItemCommands
+# CommandItem
 
-[![workflow](https://github.com/CarmJos/ItemCommands/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/CarmJos/ItemCommands/actions/workflows/maven.yml)
+[![workflow](https://github.com/CarmJos/CommandItem/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/CarmJos/CommandItem/actions/workflows/maven.yml)
 ![Support](https://img.shields.io/badge/Minecraft-Java%201.12--Latest-yellow)
-![](https://visitor-badge.glitch.me/badge?page_id=ItemCommands.readme)
+![](https://visitor-badge.glitch.me/badge?page_id=CommandItem.readme)
 
 物品指令绑定插件，给予玩家可执行对应指令的消耗物品，基于EasyPlugin实现。
 
