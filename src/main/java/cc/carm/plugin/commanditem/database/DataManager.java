@@ -3,11 +3,15 @@ package cc.carm.plugin.commanditem.database;
 import cc.carm.lib.easysql.EasySQL;
 import cc.carm.lib.easysql.api.SQLManager;
 import cc.carm.plugin.commanditem.Main;
+import cc.carm.plugin.commanditem.util.DatabaseTable;
 
 import java.sql.SQLException;
 
 public class DataManager {
     private SQLManager sqlManager;
+
+    private DatabaseTable givenTable;
+    private DatabaseTable receivedTable;
 
     public boolean initialize() {
         try {
@@ -25,9 +29,12 @@ public class DataManager {
 
         try {
             Main.info("	创建插件记录所需表...");
-            getSQLManager().createTable(DBTables.LogTable.TABLE_NAME.get())
-                    .setColumns(DBTables.LogTable.TABLE_COLUMNS)
-                    .build().execute();
+
+            this.givenTable = new DatabaseTable(DBTables.GiveTable.TABLE_NAME.get(), DBTables.GiveTable.TABLE_COLUMNS);
+            this.receivedTable = new DatabaseTable(DBTables.TakeTable.TABLE_NAME.get(), DBTables.TakeTable.TABLE_COLUMNS);
+
+            this.givenTable.createTable(this.sqlManager);
+            this.receivedTable.createTable(this.sqlManager);
 
         } catch (SQLException exception) {
             Main.severe("无法创建插件所需的表，请检查数据库权限。");
@@ -47,6 +54,15 @@ public class DataManager {
     public SQLManager getSQLManager() {
         return sqlManager;
     }
+
+    public DatabaseTable getGivenTable() {
+        return givenTable;
+    }
+
+    public DatabaseTable getReceivedTable() {
+        return receivedTable;
+    }
+
 
 
 }

@@ -4,7 +4,9 @@ import cc.carm.lib.easyplugin.EasyPlugin;
 import cc.carm.lib.easyplugin.i18n.EasyPluginMessageProvider;
 import cc.carm.plugin.commanditem.configuration.PluginConfig;
 import cc.carm.plugin.commanditem.hooker.GHUpdateChecker;
+import cc.carm.plugin.commanditem.listener.ItemListener;
 import cc.carm.plugin.commanditem.manager.ConfigManager;
+import cc.carm.plugin.commanditem.manager.ItemsManager;
 import cc.carm.plugin.commanditem.util.JarResourceUtils;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -24,6 +26,8 @@ public class Main extends EasyPlugin {
         return instance;
     }
 
+    protected ItemsManager itemsManager;
+
     @Override
     protected boolean initialize() {
 
@@ -34,6 +38,11 @@ public class Main extends EasyPlugin {
             return false;
         }
 
+        info("注册指令...");
+
+        info("注册监听器...");
+        regListener(new ItemListener());
+
         if (PluginConfig.METRICS.get()) {
             info("启用统计数据...");
             new Metrics(this, 14459);
@@ -41,7 +50,7 @@ public class Main extends EasyPlugin {
 
         if (PluginConfig.CHECK_UPDATE.get()) {
             log("开始检查更新...");
-            GHUpdateChecker checker = new GHUpdateChecker(getLogger(), "CarmJos", "ItemCommands");
+            GHUpdateChecker checker = new GHUpdateChecker(getLogger(), "CarmJos", "CommandItem");
             getScheduler().runAsync(() -> checker.checkUpdate(getDescription().getVersion()));
         } else {
             log("已禁用检查更新，跳过。");

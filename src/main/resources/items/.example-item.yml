@@ -1,0 +1,55 @@
+# 唯一标识 [必须]
+# 将用于判定一个物品对于的配置文件
+# 必须 必须 必须 保持唯一！
+identifier: "pro"
+
+name: "Pro会员前缀"
+
+item:
+  # 使用原生 ItemStack 配置物品 可能引起配置无法加载而报错！
+  original:
+    ==: org.bukkit.inventory.ItemStack
+    type: DIAMOND
+    damage: 8
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: "&b&lPro+ &b会员前缀"
+      lore:
+        - "&7手持物品右键点击即可获得！"
+
+  # 使用插件提供的方法配置物品，更简单
+  type: DIAMOND
+  name: "&b&lPro+ &b会员前缀"
+  lore:
+    - "&7手持物品右键点击即可获得！"
+
+functions:
+  log-give: true # 是否为该物品记录发放日志
+  log-take: false # 是否为该物品记录拿取日志 (即出现 [take] action 时记录)
+
+# 限定相关配置
+restrictions:
+  time: # 允许领取的时间范围
+    start: 2021-12-21 15:33:21 # 开始时间，若无该选项则不限制开始时间
+    end: 2022-01-21 15:33:21 # 结束时间，若无该选项则不限制结束时间
+
+# 相关权限设定
+# 若玩家拥有配置的权限，则会执行权限对应的操作；
+# 权限配置从上向下判断，若权限设定为空，则会使用default的操作。
+permissions:
+  normal: "prefix.item.use"
+  have: "prefix.pro"
+
+# 玩家右键物品时执行的操作
+actions:
+  default: # 默认执行的操作
+    - "[message] &c您没有使用该物品的权限！"
+  normal: # 若有 normal 权限设定，则执行此操作
+    - "[console] say %player_name% 获得了 %name% ！"
+    - "[console] lp user %player_name% permission set prefix.pro true"
+    - "[chat] /prefix" # 以玩家聊天的形式发出消息，若以 "/" 开头则会被视为命令
+    - "[sound] ENTITY_PLAYER_LEVELUP" # 播放声音
+    - "[take]" # 拿走对应物品 (即数量-1)
+  have:
+    - "[message] &c您已经拥有了该前缀，无法重复领取！"
