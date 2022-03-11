@@ -1,7 +1,6 @@
 package cc.carm.plugin.commanditem.item;
 
 import cc.carm.plugin.commanditem.CommandItemAPI;
-import cc.carm.plugin.commanditem.Main;
 import cc.carm.plugin.commanditem.manager.ConfigManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -22,20 +21,17 @@ public class ItemSettings {
     @Nullable ItemStackConfig item;
     @NotNull ItemRestrictions restrictions;
 
-    @Nullable ItemActionGroup defaultActions;
     @NotNull Map<String, String> permissions;
     @NotNull Map<String, ItemActionGroup> actions;
 
     public ItemSettings(@NotNull String identifier, @Nullable String name,
                         @Nullable ItemStackConfig item, @NotNull ItemRestrictions restrictions,
-                        @Nullable ItemActionGroup defaultActions,
                         @NotNull Map<String, String> permissions,
                         @NotNull Map<String, ItemActionGroup> actions) {
         this.identifier = identifier;
         this.name = name;
         this.item = item;
         this.restrictions = restrictions;
-        this.defaultActions = defaultActions;
         this.permissions = permissions;
         this.actions = actions;
     }
@@ -81,15 +77,15 @@ public class ItemSettings {
     }
 
     public @Nullable ItemActionGroup getDefaultActions() {
-        return defaultActions;
+        return getActions().get("default");
     }
 
     public @Nullable ItemActionGroup getPlayerActions(@NotNull Player player) {
-        String actionGroup = getPermissions().entrySet().stream()
+        @NotNull String actionGroup = getPermissions().entrySet().stream()
                 .filter(entry -> player.hasPermission(entry.getValue()))
-                .map(Map.Entry::getKey).findFirst().orElse(null);
-        Main.debugging(" Player " + player.getName() + " will execute " + actionGroup);
-        return getActions().getOrDefault(actionGroup, getDefaultActions());
+                .map(Map.Entry::getKey).findFirst().orElse("default");
+
+        return getActions().get(actionGroup);
     }
 
     public @NotNull ItemStack applyItem(ItemStack originalItem) {
@@ -107,7 +103,6 @@ public class ItemSettings {
                 identifier, config.getString("name"),
                 ItemStackConfig.read(config.getConfigurationSection("item")),
                 ItemRestrictions.read(config.getConfigurationSection("restrictions")),
-                ItemActionGroup.read(config.getStringList("actions.default")),
                 ConfigManager.readStringMap(config.getConfigurationSection("permissions"), (s -> s)),
                 ConfigManager.readListMap(config.getConfigurationSection("actions"), ItemActionGroup::read)
         );

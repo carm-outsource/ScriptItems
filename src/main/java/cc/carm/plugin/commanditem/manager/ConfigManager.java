@@ -89,7 +89,7 @@ public class ConfigManager {
         if (section == null) return new LinkedHashMap<>();
         Map<String, V> result = new LinkedHashMap<>();
         for (String key : section.getKeys(false)) {
-            if (!section.isConfigurationSection(key)) continue;
+            if (!section.isList(key)) continue;
             V finalValue = valueCast.apply(section.getStringList(key));
             if (finalValue != null) result.put(key, finalValue);
         }
