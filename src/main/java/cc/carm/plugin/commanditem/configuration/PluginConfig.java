@@ -1,7 +1,6 @@
 package cc.carm.plugin.commanditem.configuration;
 
 import cc.carm.lib.easyplugin.configuration.values.ConfigValue;
-import cc.carm.lib.easyplugin.configuration.values.ConfigValueMap;
 
 public class PluginConfig {
 
@@ -26,6 +25,15 @@ public class PluginConfig {
         public static ConfigValue<Boolean> ENABLE = new ConfigValue<>("custom-storage.enable", Boolean.class, false);
 
         public static ConfigValue<String> PATH = new ConfigValue<>("custom-storage.path", String.class, "items/");
+
+    }
+
+    public static class CoolDown {
+
+        public static ConfigValue<Boolean> ENABLE = new ConfigValue<>("cooldown.enable", Boolean.class, false);
+
+        public static ConfigValue<Long> TIME = new ConfigValue<>("cooldown.time", Long.class, 3000L);
+
 
     }
 

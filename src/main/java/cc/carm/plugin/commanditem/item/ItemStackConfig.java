@@ -1,5 +1,6 @@
 package cc.carm.plugin.commanditem.item;
 
+import cc.carm.lib.easyplugin.utils.ColorParser;
 import cc.carm.lib.easyplugin.utils.ItemStackFactory;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -42,7 +43,7 @@ public class ItemStackConfig {
         if (original != null) return original.clone();
         if (material == null) return null;
         ItemStackFactory factory = new ItemStackFactory(material, amount);
-        if (displayName != null) factory.setDisplayName(displayName);
+        if (displayName != null) factory.setDisplayName(ColorParser.parse(displayName));
         if (lore != null && !lore.isEmpty()) factory.setLore(lore);
         return factory.toItemStack();
     }

@@ -1,6 +1,7 @@
 package cc.carm.plugin.commanditem.listener;
 
 import cc.carm.plugin.commanditem.CommandItemAPI;
+import cc.carm.plugin.commanditem.configuration.PluginConfig;
 import cc.carm.plugin.commanditem.item.CommandItem;
 import cc.carm.plugin.commanditem.item.ItemActionGroup;
 import cc.carm.plugin.commanditem.item.ItemRestrictions;
@@ -14,12 +15,16 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.UUID;
 
 public class ItemListener implements Listener {
 
+    private final HashMap<UUID, Long> clickTime = new HashMap<>();
 
     /**
      * 监听玩家点击，并执行物品对应的操作。
@@ -33,8 +38,13 @@ public class ItemListener implements Listener {
         ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
         CommandItem commandItem = CommandItemAPI.getItemsManager().parseCommandItem(item);
         if (commandItem == null) return;
+        event.setCancelled(true); // 阻止事件执行
 
         Player player = event.getPlayer();
+        if (!isClickable(player.getUniqueId())) {
+            // TODO 给玩家发消息告诉他还在冷却
+            return;
+        }
 
         if (commandItem.getConfiguration().checkRestrictions() != ItemRestrictions.CheckResult.AVAILABLE) {
             // TODO 给玩家发消息告诉他还不能用
@@ -42,11 +52,9 @@ public class ItemListener implements Listener {
         }
 
         ItemActionGroup actions = commandItem.getConfiguration().getPlayerActions(player);
-
         if (actions == null) return;
 
         actions.execute(player);
-
     }
 
     /**
@@ -90,6 +98,21 @@ public class ItemListener implements Listener {
         if (CommandItemAPI.getItemsManager().isCommandItem(item)) {
             event.setCancelled(true);
         }
+    }
+
+    @EventHandler
+    public void onLeave(PlayerQuitEvent event) {
+        this.clickTime.remove(event.getPlayer().getUniqueId());
+    }
+
+    public void updateTime(UUID uuid) {
+        this.clickTime.put(uuid, System.currentTimeMillis());
+    }
+
+    public boolean isClickable(UUID uuid) {
+        return !PluginConfig.CoolDown.ENABLE.get()
+                || !this.clickTime.containsKey(uuid)
+                || System.currentTimeMillis() - this.clickTime.get(uuid) > PluginConfig.CoolDown.TIME.get();
     }
 
 
