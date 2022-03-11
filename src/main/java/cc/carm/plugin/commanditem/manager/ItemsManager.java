@@ -40,7 +40,7 @@ public class ItemsManager {
         if (!prefixDataFolder.isDirectory() || !prefixDataFolder.exists()) {
             try {
                 JarResourceUtils.copyFolderFromJar(
-                        FOLDER_NAME, prefixDataFolder,
+                        FOLDER_NAME, Main.getInstance().getDataFolder(),
                         JarResourceUtils.CopyOption.COPY_IF_NOT_EXIST
                 );
             } catch (Exception ex) {
