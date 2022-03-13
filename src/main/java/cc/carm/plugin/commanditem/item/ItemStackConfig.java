@@ -30,7 +30,7 @@ public class ItemStackConfig {
         this(original, null, null, null);
     }
 
-    public ItemStackConfig(@Nullable ItemStack original,
+    private ItemStackConfig(@Nullable ItemStack original,
                            @Nullable Material material, @Nullable String displayName, @Nullable List<String> lore) {
         this.original = original;
         this.material = material;
