@@ -52,8 +52,8 @@ public class Main extends EasyPlugin {
         BukkitFrame frame = new BukkitFrame(this);
         frame.setExecutor(new BukkitSchedulerExecutor(this));
         frame.registerAdapter(ItemSettings.class, new ItemSettingsAdapter());
-        frame.registerCompleter("settings", new ItemSettingsCompleter());
         frame.registerCommands(new CMDItemsCommand());
+        frame.registerCompleter("commanditem.apply", new ItemSettingsCompleter());
 
         info("注册监听器...");
         regListener(new ItemListener());

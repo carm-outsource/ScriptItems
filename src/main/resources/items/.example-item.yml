@@ -5,8 +5,8 @@ identifier: "pro"
 
 name: "Pro会员前缀"
 
-item:
-  # 使用原生 ItemStack 配置物品 可能引起配置无法加载而报错！
+## 使用原生 ItemStack 配置物品 可能引起配置无法加载而报错！
+#item:
 #  ==: org.bukkit.inventory.ItemStack
 #  type: DIAMOND
 #  damage: 8
@@ -18,6 +18,7 @@ item:
 #      - "&7手持物品右键点击即可获得！"
 
   # 使用插件提供的方法配置物品，更简单
+item:
   type: DIAMOND
   name: "&b&lPro+ &b会员前缀"
   lore:
