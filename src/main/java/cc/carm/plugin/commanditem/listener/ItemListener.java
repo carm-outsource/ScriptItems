@@ -47,6 +47,7 @@ public class ItemListener implements Listener {
             PluginMessages.COOLDOWN.send(player, getRemainSeconds(player.getUniqueId()));
             return;
         }
+        updateTime(player.getUniqueId());
 
         ItemSettings settings = commandItem.getSettings();
 
@@ -61,7 +62,6 @@ public class ItemListener implements Listener {
         ItemActionGroup actions = settings.getPlayerActions(player);
         if (actions == null) return;
 
-        updateTime(player.getUniqueId());
         actions.execute(player);
     }
 
