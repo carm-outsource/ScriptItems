@@ -48,8 +48,9 @@ public class ItemStackConfig {
     public static @Nullable ItemStackConfig read(@Nullable ConfigurationSection section) {
         if (section == null) return null;
         return new ItemStackConfig(
-                Optional.ofNullable(section.getString("material")).map(Material::matchMaterial).orElse(null),
-                section.getString("displayName"), section.getStringList("lore")
+                Optional.ofNullable(section.getString("type")).map(Material::matchMaterial).orElse(null),
+                section.getString("name"),
+                section.getStringList("lore")
         );
     }
 
