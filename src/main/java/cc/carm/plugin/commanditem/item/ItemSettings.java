@@ -2,6 +2,7 @@ package cc.carm.plugin.commanditem.item;
 
 import cc.carm.plugin.commanditem.CommandItemAPI;
 import cc.carm.plugin.commanditem.manager.ConfigManager;
+import me.saiintbrisson.minecraft.command.argument.TypeAdapter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -109,5 +110,4 @@ public class ItemSettings {
                 ConfigManager.readListMap(config.getConfigurationSection("actions"), ItemActionGroup::read)
         );
     }
-
 }

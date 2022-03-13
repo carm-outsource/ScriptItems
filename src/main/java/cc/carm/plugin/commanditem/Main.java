@@ -3,12 +3,17 @@ package cc.carm.plugin.commanditem;
 import cc.carm.lib.easyplugin.EasyPlugin;
 import cc.carm.lib.easyplugin.i18n.EasyPluginMessageProvider;
 import cc.carm.plugin.commanditem.command.CMDItemsCommand;
+import cc.carm.plugin.commanditem.command.ItemSettingsAdapter;
+import cc.carm.plugin.commanditem.command.ItemSettingsCompleter;
 import cc.carm.plugin.commanditem.configuration.PluginConfig;
 import cc.carm.plugin.commanditem.hooker.GHUpdateChecker;
+import cc.carm.plugin.commanditem.item.ItemSettings;
 import cc.carm.plugin.commanditem.listener.ItemListener;
 import cc.carm.plugin.commanditem.manager.ConfigManager;
 import cc.carm.plugin.commanditem.manager.ItemsManager;
 import cc.carm.plugin.commanditem.util.JarResourceUtils;
+import me.saiintbrisson.bukkit.command.BukkitFrame;
+import me.saiintbrisson.bukkit.command.executor.BukkitSchedulerExecutor;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 
@@ -44,14 +49,18 @@ public class Main extends EasyPlugin {
         this.itemsManager.initialize();
 
         info("注册指令...");
-        registerCommand("CommandItem", new CMDItemsCommand());
+        BukkitFrame frame = new BukkitFrame(this);
+        frame.setExecutor(new BukkitSchedulerExecutor(this));
+        frame.registerAdapter(ItemSettings.class, new ItemSettingsAdapter());
+        frame.registerCompleter("settings", new ItemSettingsCompleter());
+        frame.registerCommands(new CMDItemsCommand());
 
         info("注册监听器...");
         regListener(new ItemListener());
 
         if (PluginConfig.METRICS.get()) {
             info("启用统计数据...");
-            new Metrics(this, 14459);
+            new Metrics(this, 14560);
         }
 
         if (PluginConfig.CHECK_UPDATE.get()) {
