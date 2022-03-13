@@ -30,10 +30,9 @@ public class PluginConfig {
 
     public static class CoolDown {
 
-        public static ConfigValue<Boolean> ENABLE = new ConfigValue<>("cooldown.enable", Boolean.class, false);
+        public static ConfigValue<Boolean> ENABLE = new ConfigValue<>("cooldown.enable", Boolean.class, true);
 
         public static ConfigValue<Long> TIME = new ConfigValue<>("cooldown.time", Long.class, 3000L);
-
 
     }
 

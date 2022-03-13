@@ -55,6 +55,7 @@ public class ItemListener implements Listener {
         if (actions == null) return;
 
         actions.execute(player);
+        updateTime(player.getUniqueId());
     }
 
     /**
