@@ -127,7 +127,7 @@ public class ItemListener implements Listener {
         if (!this.clickTime.containsKey(uuid)) return 0;
         if (!PluginConfig.CoolDown.ENABLE.get()) return 0;
         long start = this.clickTime.get(uuid);
-        return (int) ((PluginConfig.CoolDown.TIME.get() * 1000 - (System.currentTimeMillis() - start)) / 1000) + 1;
+        return (int) (PluginConfig.CoolDown.TIME.get() - ((System.currentTimeMillis() - start) / 1000)) + 1;
     }
 
 
