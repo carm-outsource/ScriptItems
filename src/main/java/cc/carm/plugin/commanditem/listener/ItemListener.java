@@ -54,8 +54,8 @@ public class ItemListener implements Listener {
         ItemActionGroup actions = commandItem.getConfiguration().getPlayerActions(player);
         if (actions == null) return;
 
-        actions.execute(player);
         updateTime(player.getUniqueId());
+        actions.execute(player);
     }
 
     /**
