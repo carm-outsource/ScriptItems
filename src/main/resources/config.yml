@@ -22,24 +22,3 @@ cooldown:
   enable: true
   # 冷却的事件，单位为毫秒 1秒 = 1000毫秒 = 20ticks
   time: 3000
-
-log-storage:
-  # 是否启用日志记录存储
-  # 可用于追踪物品的发放、领取情况与执行记录。
-  enable: true
-
-  # 启用日志记录存储时的数据库配置
-  database:
-    # 数据库驱动路径，默认为 MySQL
-    driver: "com.mysql.cj.jdbc.Driver"
-    # 数据库连接配置
-    host: "127.0.0.1"
-    port: 3306
-    database: "minecraft"
-    username: "username"
-    password: "password"
-    extra: "?useSSL=false"
-    # 插件相关表的名称
-    tables:
-      give: "log_item_give"
-      take: "log_item_take"
