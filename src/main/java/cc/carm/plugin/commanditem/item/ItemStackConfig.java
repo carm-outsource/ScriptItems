@@ -13,91 +13,49 @@ import java.util.Optional;
 @SuppressWarnings("UnusedReturnValue")
 public class ItemStackConfig {
 
-    protected @Nullable ItemStack original;
-
-    protected @Nullable Material material;
-    protected @Nullable String displayName;
-    protected @Nullable List<String> lore;
+    protected @Nullable ItemStack item;
 
     public ItemStackConfig() {
     }
 
     public ItemStackConfig(@Nullable Material material, @Nullable String displayName, @Nullable List<String> lore) {
-        this(null, material, displayName, lore);
+        if (material == null) {
+            this.item = null;
+            return;
+        }
+
+        ItemStackFactory factory = new ItemStackFactory(material);
+        if (displayName != null) factory.setDisplayName(ColorParser.parse(displayName));
+        if (lore != null && !lore.isEmpty()) factory.setLore(lore);
+        this.item = factory.toItemStack();
     }
 
-    public ItemStackConfig(@Nullable ItemStack original) {
-        this(original, null, null, null);
-    }
-
-    private ItemStackConfig(@Nullable ItemStack original,
-                           @Nullable Material material, @Nullable String displayName, @Nullable List<String> lore) {
-        this.original = original;
-        this.material = material;
-        this.displayName = displayName;
-        this.lore = lore;
+    public ItemStackConfig(@Nullable ItemStack item) {
+        this.item = item;
     }
 
     public @Nullable ItemStack getItemStack(int amount) {
-        if (amount <= 0) return null;
-        if (original != null) return original.clone();
-        if (material == null) return null;
-        ItemStackFactory factory = new ItemStackFactory(material, amount);
-        if (displayName != null) factory.setDisplayName(ColorParser.parse(displayName));
-        if (lore != null && !lore.isEmpty()) factory.setLore(lore);
-        return factory.toItemStack();
+        if (amount <= 0 || item == null) return null;
+        ItemStack item = this.item.clone();
+        item.setAmount(amount);
+        return item;
     }
 
     public @Nullable ItemStack getItemStack() {
         return getItemStack(1);
     }
 
-    public @Nullable ItemStack getOriginal() {
-        return original;
-    }
-
-    public ItemStackConfig setOriginal(@Nullable ItemStack original) {
-        this.original = original;
-        return this;
-    }
-
-    public @Nullable Material getMaterial() {
-        return material;
-    }
-
-    public ItemStackConfig setMaterial(@Nullable Material material) {
-        this.material = material;
-        return this;
-    }
-
-    public @Nullable String getDisplayName() {
-        return displayName;
-    }
-
-    public ItemStackConfig setDisplayName(@Nullable String displayName) {
-        this.displayName = displayName;
-        return this;
-    }
-
-    public @Nullable List<String> getLore() {
-        return lore;
-    }
-
-    public ItemStackConfig setLore(@Nullable List<String> lore) {
-        this.lore = lore;
-        return this;
-    }
-
     public static @Nullable ItemStackConfig read(@Nullable ConfigurationSection section) {
         if (section == null) return null;
-        ItemStackConfig config = new ItemStackConfig();
-        if (section.contains("original") && section.isItemStack("original")) {
-            config.setOriginal(section.getItemStack("original"));
-        }
-        Optional.ofNullable(section.getString("material")).map(Material::matchMaterial).ifPresent(config::setMaterial);
-        Optional.ofNullable(section.getString("displayName")).ifPresent(config::setDisplayName);
-        Optional.of(section.getStringList("lore")).filter(l -> !l.isEmpty()).ifPresent(config::setLore);
-        return config;
+        return new ItemStackConfig(
+                Optional.ofNullable(section.getString("material")).map(Material::matchMaterial).orElse(null),
+                section.getString("displayName"), section.getStringList("lore")
+        );
+    }
+
+    public static @Nullable ItemStackConfig create(@Nullable ItemStack item) {
+        if (item == null) return null;
+        return new ItemStackConfig(item);
     }
 
 

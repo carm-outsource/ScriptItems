@@ -101,7 +101,9 @@ public class ItemSettings {
         if (identifier == null) throw new Exception("identifier not provided.");
         return new ItemSettings(
                 identifier, config.getString("name"),
-                ItemStackConfig.read(config.getConfigurationSection("item")),
+                config.isItemStack("item") ?
+                        ItemStackConfig.create(config.getItemStack("item")) :
+                        ItemStackConfig.read(config.getConfigurationSection("item")),
                 ItemRestrictions.read(config.getConfigurationSection("restrictions")),
                 ConfigManager.readStringMap(config.getConfigurationSection("permissions"), (s -> s)),
                 ConfigManager.readListMap(config.getConfigurationSection("actions"), ItemActionGroup::read)
