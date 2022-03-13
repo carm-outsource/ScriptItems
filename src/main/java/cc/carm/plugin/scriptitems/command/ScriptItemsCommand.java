@@ -1,5 +1,6 @@
 package cc.carm.plugin.scriptitems.command;
 
+import cc.carm.plugin.scriptitems.Main;
 import cc.carm.plugin.scriptitems.ScriptItemsAPI;
 import cc.carm.plugin.scriptitems.configuration.PluginMessages;
 import cc.carm.plugin.scriptitems.item.ScriptConfiguration;
@@ -63,9 +64,14 @@ public class ScriptItemsCommand implements CommandExecutor, TabCompleter {
                     return true;
                 }
 
-                player.getInventory().setItemInMainHand(settings.applyItem(item.clone()));
-                PluginMessages.APPLIED.send(sender, item.getType().name(), settings.getName());
-
+                player.getInventory().setItemInMainHand(null);
+                ItemStack after = settings.applyItem(item.clone());
+                Main.getInstance().getScheduler().runLater(10L, () -> {
+                    if (player.isOnline()) {
+                        player.getInventory().setItemInMainHand(after);
+                        PluginMessages.APPLIED.send(sender, item.getType().name(), settings.getName());
+                    }
+                });
                 return true;
             } else if (aim.equalsIgnoreCase("give")) {
 

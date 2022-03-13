@@ -23,7 +23,7 @@ public class ItemsManager {
 
     private static final String FOLDER_NAME = "items";
 
-    public HashMap<String, ScriptConfiguration> items = new HashMap<>();
+    private HashMap<String, ScriptConfiguration> items = new HashMap<>();
 
     protected NamespacedKey idKey;
     protected NamespacedKey uuidKey;
