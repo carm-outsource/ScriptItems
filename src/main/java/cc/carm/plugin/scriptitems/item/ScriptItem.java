@@ -9,10 +9,10 @@ public class ScriptItem {
 
     @NotNull UUID uuid;
 
-    @NotNull ItemSettings settings;
+    @NotNull ScriptConfiguration settings;
     @NotNull ItemStack itemStack;
 
-    public ScriptItem(@NotNull UUID uuid, @NotNull ItemSettings settings, @NotNull ItemStack itemStack) {
+    public ScriptItem(@NotNull UUID uuid, @NotNull ScriptConfiguration settings, @NotNull ItemStack itemStack) {
         this.uuid = uuid;
         this.settings = settings;
         this.itemStack = itemStack;
@@ -22,7 +22,7 @@ public class ScriptItem {
         return uuid;
     }
 
-    public @NotNull ItemSettings getSettings() {
+    public @NotNull ScriptConfiguration getSettings() {
         return settings;
     }
 

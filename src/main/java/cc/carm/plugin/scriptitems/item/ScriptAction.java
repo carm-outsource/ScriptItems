@@ -4,17 +4,17 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class ItemAction {
+public class ScriptAction {
 
-    @NotNull ItemActionType type;
+    @NotNull ScriptActionType type;
     @Nullable String actionContent;
 
-    public ItemAction(@NotNull ItemActionType type, @Nullable String actionContent) {
+    public ScriptAction(@NotNull ScriptActionType type, @Nullable String actionContent) {
         this.type = type;
         this.actionContent = actionContent;
     }
 
-    public @NotNull ItemActionType getType() {
+    public @NotNull ScriptActionType getType() {
         return type;
     }
 
@@ -26,17 +26,17 @@ public class ItemAction {
         return getType().execute(player, getActionContent());
     }
 
-    public static @Nullable ItemAction read(@Nullable String actionString) {
+    public static @Nullable ScriptAction read(@Nullable String actionString) {
         if (actionString == null) return null;
         int prefixStart = actionString.indexOf("[");
         int prefixEnd = actionString.indexOf("]");
         if (prefixStart < 0 || prefixEnd < 0) return null;
 
         String prefix = actionString.substring(prefixStart + 1, prefixEnd);
-        ItemActionType actionType = ItemActionType.read(prefix);
+        ScriptActionType actionType = ScriptActionType.read(prefix);
         if (actionType == null) return null;
 
-        return new ItemAction(actionType, actionString.substring(prefixEnd + 1).trim());
+        return new ScriptAction(actionType, actionString.substring(prefixEnd + 1).trim());
     }
 
 

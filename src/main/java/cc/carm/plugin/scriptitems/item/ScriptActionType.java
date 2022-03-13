@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.BiFunction;
 
-public enum ItemActionType {
+public enum ScriptActionType {
 
     /**
      * 以玩家聊天的形式执行
@@ -100,7 +100,7 @@ public enum ItemActionType {
 
     BiFunction<@NotNull Player, @Nullable String, @NotNull Boolean> executor;
 
-    ItemActionType(BiFunction<@NotNull Player, @Nullable String, @NotNull Boolean> executor) {
+    ScriptActionType(BiFunction<@NotNull Player, @Nullable String, @NotNull Boolean> executor) {
         this.executor = executor;
     }
 
@@ -112,8 +112,8 @@ public enum ItemActionType {
         return getExecutor().apply(player, content);
     }
 
-    public static ItemActionType read(String string) {
-        return Arrays.stream(ItemActionType.values())
+    public static ScriptActionType read(String string) {
+        return Arrays.stream(ScriptActionType.values())
                 .filter(action -> action.name().equalsIgnoreCase(string))
                 .findFirst().orElse(null);
     }

@@ -1,7 +1,7 @@
 package cc.carm.plugin.scriptitems.manager;
 
 import cc.carm.plugin.scriptitems.Main;
-import cc.carm.plugin.scriptitems.item.ItemSettings;
+import cc.carm.plugin.scriptitems.item.ScriptConfiguration;
 import cc.carm.plugin.scriptitems.item.ScriptItem;
 import cc.carm.plugin.scriptitems.util.JarResourceUtils;
 import com.google.common.collect.ImmutableMap;
@@ -23,7 +23,7 @@ public class ItemsManager {
 
     private static final String FOLDER_NAME = "items";
 
-    public HashMap<String, ItemSettings> items = new HashMap<>();
+    public HashMap<String, ScriptConfiguration> items = new HashMap<>();
 
     protected NamespacedKey idKey;
     protected NamespacedKey uuidKey;
@@ -60,18 +60,18 @@ public class ItemsManager {
                 .filter(File::isFile)
                 .collect(Collectors.toList());
 
-        HashMap<String, ItemSettings> dataItems = new HashMap<>();
+        HashMap<String, ScriptConfiguration> dataItems = new HashMap<>();
 
         if (files.size() > 0) {
             for (File file : files) {
                 String fileName = file.getName();
                 if (fileName.startsWith(".")) continue;
                 try {
-                    ItemSettings item = ItemSettings.load(file);
-                    Main.info(" 完成物品加载 [#" + item.getIdentifier() + "] " + item.getName() + " (" + fileName + ")");
+                    ScriptConfiguration item = ScriptConfiguration.load(file);
+                    Main.info(" 完成脚本物品加载 [#" + item.getIdentifier() + "] " + item.getName() + " (" + fileName + ")");
                     dataItems.put(item.getIdentifier(), item);
                 } catch (Exception ex) {
-                    Main.severe("在加载物品 " + file.getAbsolutePath() + " 时出错，请检查配置！");
+                    Main.severe("在加载脚本物品 " + file.getAbsolutePath() + " 时出错，请检查配置！");
                     Main.severe("Error occurred when loading item #" + file.getAbsolutePath() + " !");
                     ex.printStackTrace();
                 }
@@ -86,11 +86,11 @@ public class ItemsManager {
     }
 
     @Unmodifiable
-    public Map<String, ItemSettings> listItemSettings() {
+    public Map<String, ScriptConfiguration> listItemSettings() {
         return ImmutableMap.copyOf(items);
     }
 
-    public @Nullable ItemSettings getItemSettings(@NotNull String identifier) {
+    public @Nullable ScriptConfiguration getItemSettings(@NotNull String identifier) {
         return items.get(identifier);
     }
 
@@ -114,7 +114,7 @@ public class ItemsManager {
         String settingsID = container.getCustomTag(this.idKey, ItemTagType.STRING);
         String itemUUID = container.getCustomTag(this.uuidKey, ItemTagType.STRING);
         if (settingsID == null || itemUUID == null) return null;
-        ItemSettings settings = getItemSettings(settingsID);
+        ScriptConfiguration settings = getItemSettings(settingsID);
         if (settings == null) return null;
         return new ScriptItem(UUID.fromString(itemUUID), settings, item);
     }

@@ -4,9 +4,9 @@ import cc.carm.plugin.scriptitems.ScriptItemsAPI;
 import cc.carm.plugin.scriptitems.configuration.PluginConfig;
 import cc.carm.plugin.scriptitems.configuration.PluginMessages;
 import cc.carm.plugin.scriptitems.item.ScriptItem;
-import cc.carm.plugin.scriptitems.item.ItemActionGroup;
-import cc.carm.plugin.scriptitems.item.ItemRestrictions;
-import cc.carm.plugin.scriptitems.item.ItemSettings;
+import cc.carm.plugin.scriptitems.item.ScriptActionGroup;
+import cc.carm.plugin.scriptitems.item.ScriptRestrictions;
+import cc.carm.plugin.scriptitems.item.ScriptConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -49,17 +49,17 @@ public class ItemListener implements Listener {
         }
         updateTime(player.getUniqueId());
 
-        ItemSettings settings = scriptItem.getSettings();
+        ScriptConfiguration settings = scriptItem.getSettings();
 
         // 检查物品的相关使用限制是否满足要求
-        ItemRestrictions.CheckResult result = settings.getRestrictions().check();
-        if (result != ItemRestrictions.CheckResult.AVAILABLE) {
+        ScriptRestrictions.CheckResult result = settings.getRestrictions().check();
+        if (result != ScriptRestrictions.CheckResult.AVAILABLE) {
             result.send(player, settings.getRestrictions()); // 发送提示
             return;
         }
 
         // 获取玩家的对应操作组
-        ItemActionGroup actions = settings.getPlayerActions(player);
+        ScriptActionGroup actions = settings.getPlayerActions(player);
         if (actions == null) return;
 
         actions.execute(player);

@@ -2,7 +2,7 @@ package cc.carm.plugin.scriptitems.command;
 
 import cc.carm.plugin.scriptitems.ScriptItemsAPI;
 import cc.carm.plugin.scriptitems.configuration.PluginMessages;
-import cc.carm.plugin.scriptitems.item.ItemSettings;
+import cc.carm.plugin.scriptitems.item.ScriptConfiguration;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -50,7 +50,7 @@ public class ScriptItemsCommand implements CommandExecutor, TabCompleter {
                     return true;
                 }
 
-                ItemSettings settings = ScriptItemsAPI.getItemsManager().getItemSettings(args[1]);
+                ScriptConfiguration settings = ScriptItemsAPI.getItemsManager().getItemSettings(args[1]);
                 if (settings == null) {
                     PluginMessages.NOT_EXISTS.send(sender, args[1]);
                     return true;
@@ -81,7 +81,7 @@ public class ScriptItemsCommand implements CommandExecutor, TabCompleter {
                     return true;
                 }
 
-                ItemSettings settings = ScriptItemsAPI.getItemsManager().getItemSettings(args[2]);
+                ScriptConfiguration settings = ScriptItemsAPI.getItemsManager().getItemSettings(args[2]);
                 if (settings == null) {
                     PluginMessages.NOT_EXISTS.send(sender, args[2]);
                     return true;

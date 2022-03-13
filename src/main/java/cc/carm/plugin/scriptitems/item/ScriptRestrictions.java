@@ -11,16 +11,16 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class ItemRestrictions {
+public class ScriptRestrictions {
 
     long startTime;
     long endTime;
 
-    public ItemRestrictions() {
+    public ScriptRestrictions() {
         this(-1, -1);
     }
 
-    public ItemRestrictions(long startTime, long endTime) {
+    public ScriptRestrictions(long startTime, long endTime) {
         this.startTime = startTime;
         this.endTime = endTime;
     }
@@ -64,10 +64,10 @@ public class ItemRestrictions {
         );
 
         Supplier<@Nullable EasyMessageList> message;
-        Function<@NotNull ItemRestrictions, Object[]> params;
+        Function<@NotNull ScriptRestrictions, Object[]> params;
 
         CheckResult(@NotNull Supplier<@Nullable EasyMessageList> message,
-                    @NotNull Function<@NotNull ItemRestrictions, @Nullable Object[]> params) {
+                    @NotNull Function<@NotNull ScriptRestrictions, @Nullable Object[]> params) {
             this.message = message;
             this.params = params;
         }
@@ -76,7 +76,7 @@ public class ItemRestrictions {
             return message;
         }
 
-        public void send(Player player, ItemRestrictions restrictions) {
+        public void send(Player player, ScriptRestrictions restrictions) {
             Object[] params = this.params.apply(restrictions);
             if (params == null) {
                 getMessage().get().send(player);
@@ -87,9 +87,9 @@ public class ItemRestrictions {
 
     }
 
-    public static @NotNull ItemRestrictions read(@Nullable ConfigurationSection section) {
-        if (section == null) return new ItemRestrictions();
-        return new ItemRestrictions(
+    public static @NotNull ScriptRestrictions read(@Nullable ConfigurationSection section) {
+        if (section == null) return new ScriptRestrictions();
+        return new ScriptRestrictions(
                 TimeDateUtils.parseTimeMillis(section.getString("time.start")),
                 TimeDateUtils.parseTimeMillis(section.getString("time.end"))
         );
