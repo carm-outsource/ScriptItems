@@ -8,9 +8,9 @@ public class PluginMessages extends MessagesRoot {
 
     public static final EasyMessageList USAGE = EasyMessageList.builder().contents(
             "&2&l脚本指令 &f指令帮助",
-            "&8#&f give &a<玩家名> &a<箱子ID> &2[数量]",
+            "&8#&f give &a<玩家名> &a<脚本ID> &2[数量]",
             "&8-&7 给予指定玩家指定数量的物品。",
-            "&8#&f apply &a<箱子ID>",
+            "&8#&f apply &a<脚本ID>",
             "&8-&7 为手中的物品直接绑定一个配置。",
             "&8#&f reload",
             "&8-&7 重载配置文件。"
