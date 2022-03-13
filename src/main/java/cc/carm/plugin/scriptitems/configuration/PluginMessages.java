@@ -18,7 +18,7 @@ public class PluginMessages extends MessagesRoot {
 
 
     public final static EasyMessageList COOLDOWN = EasyMessageList.builder()
-            .contents("&f您需要等待 &c%(time)秒 &f才可再次使用该物品。")
+            .contents("&f您需要等待 &a%(time)秒 &f才可再次使用该物品。")
             .params("time").build();
 
     public final static EasyMessageList ONLY_PLAYER = EasyMessageList.builder()
@@ -44,11 +44,11 @@ public class PluginMessages extends MessagesRoot {
             .build();
 
     public final static EasyMessageList GIVEN_ALL = EasyMessageList.builder()
-            .contents("&f您成功给予 &a%(player) &f了 &a%(amount) &f个 &a%(name) &f。")
+            .contents("&f您成功给予 &2%(player) &f了 &a%(amount) &f个 &a%(name) &f。")
             .params("player", "amount", "name").build();
 
     public final static EasyMessageList GIVEN_SOME = EasyMessageList.builder().contents(
-            "&f您成功给予 &a%(player) &f了 &a%(amount) &f个 &a%(name) &f。",
+            "&f您成功给予 &2%(player) &f了 &a%(amount) &f个 &a%(name) &f。",
             "&f但由于目标玩家背包已满，仍有 &a%(remain) &f个 &a%(name) &f未成功放入背包。"
     ).params("player", "amount", "name", "remain").build();
 
@@ -64,7 +64,7 @@ public class PluginMessages extends MessagesRoot {
                 .build();
 
         public final static EasyMessageList NOT_STARTED = EasyMessageList.builder()
-                .contents("&f该物品目前还到可使用的时间，请在 &c%(time) &f后使用~")
+                .contents("&f该物品目前还到可使用的时间，请在 &a%(time) &f后使用~")
                 .params("time")
                 .build();
 

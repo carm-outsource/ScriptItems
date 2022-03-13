@@ -63,8 +63,7 @@ public class ScriptItemsCommand implements CommandExecutor, TabCompleter {
                     return true;
                 }
 
-                ItemStack after = settings.applyItem(item);
-                player.getInventory().setItemInMainHand(after);
+                player.getInventory().setItemInMainHand(settings.applyItem(item.clone()));
                 PluginMessages.APPLIED.send(sender, item.getType().name(), settings.getName());
 
                 return true;
@@ -109,10 +108,10 @@ public class ScriptItemsCommand implements CommandExecutor, TabCompleter {
 
                 HashMap<Integer, ItemStack> remain = player.getInventory().addItem(item);
                 if (remain.isEmpty()) {
-                    PluginMessages.GIVEN_ALL.send(sender, player.getName(), item.getAmount(), settings.getName());
+                    PluginMessages.GIVEN_ALL.send(sender, player.getName(), amount, settings.getName());
                 } else {
                     int remainAmount = remain.values().stream().mapToInt(ItemStack::getAmount).sum();
-                    PluginMessages.GIVEN_SOME.send(sender, player.getName(), item.getAmount() - remainAmount, settings.getName(), remainAmount);
+                    PluginMessages.GIVEN_SOME.send(sender, player.getName(), amount - remainAmount, settings.getName(), remainAmount);
                 }
 
                 return true;
