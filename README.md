@@ -1,17 +1,18 @@
 ```text
-  ___                              _ ___ _             
- / __|___ _ __  _ __  __ _ _ _  __| |_ _| |_ ___ _ __  
-| (__/ _ \ '  \| '  \/ _` | ' \/ _` || ||  _/ -_) '  \ 
- \___\___/_|_|_|_|_|_\__,_|_||_\__,_|___|\__\___|_|_|_|                               
+   ____        _      __  ______              
+  / __/_______(_)__  / /_/  _/ /____ __ _  ___
+ _\ \/ __/ __/ / _ \/ __// // __/ -_)  ' \(_-<
+/___/\__/_/ /_/ .__/\__/___/\__/\__/_/_/_/___/
+             /_/                                                          
 ```
 
-# CommandItem
+# ScriptItems
 
-[![workflow](https://github.com/CarmJos/CommandItem/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/CarmJos/CommandItem/actions/workflows/maven.yml)
+[![workflow](https://github.com/CarmJos/ScriptItems/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/CarmJos/ScriptItems/actions/workflows/maven.yml)
 ![Support](https://img.shields.io/badge/Minecraft-Java%201.12--Latest-yellow)
-![](https://visitor-badge.glitch.me/badge?page_id=CommandItem.readme)
+![](https://visitor-badge.glitch.me/badge?page_id=ScriptItems.readme)
 
-物品指令绑定插件，给予玩家可执行对应指令的消耗物品，基于EasyPlugin实现。
+脚本物品插件，给予玩家可执行对应操作的物品，基于EasyPlugin实现。
 
 ## 插件功能与优势
 
@@ -45,32 +46,35 @@
 
 详见源文件。
 
-### 消息配置文件 ([messages.yml](src/main/java/cc/carm/plugin/commanditem/configuration/PluginMessages.java))
+### 消息配置文件 ([messages.yml](src/main/java/cc/carm/plugin/scriptitems/configuration/PluginMessages.java))
 
 详见代码源文件，将在首次启动时生成配置。
 
 ## 插件指令
 
-插件主指令为 `/CommandItem`，所需权限为 `CommandItem.admin`。
+插件主指令为 `/ScriptItems`，所需权限为 `ScriptItems.admin`。
 
 ```text
 # help
 - 查看插件帮助
 
-# give <玩家> <物品ID> <数量>
+# reload
+- 重载插件配置文件。
+
+# give <玩家> <物品ID> [数量(默认为1)]
 - 给予指定玩家指定数量的物品。
 
 # apply <物品ID>
 - 为手中的物品直接绑定一个配置。
 
-# details <物品ID>
+# info <物品ID>
 - 查看物品的发放与领取情况。
 
 ```
 
 ## 使用统计
 
-[![bStats](https://bstats.org/signatures/bukkit/CommandItem.svg)](https://bstats.org/plugin/bukkit/CommandItem/14560)
+[![bStats](https://bstats.org/signatures/bukkit/ScriptItems.svg)](https://bstats.org/plugin/bukkit/ScriptItems/14615)
 
 ## 支持与捐赠
 

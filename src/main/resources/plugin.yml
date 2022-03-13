@@ -1,5 +1,5 @@
-main: cc.carm.plugin.commanditem.Main
-name: CommandItem
+main: cc.carm.plugin.scriptitems.Main
+name: ScriptItems
 
 version: ${project.version}
 description: ${project.description}
@@ -12,3 +12,10 @@ softdepend:
   - PlaceholderAPI
 
 api-version: 1.13
+
+commands:
+  "ScriptItems":
+    aliases: "sitems"
+    usage: "/ScriptItems help"
+    description: "ScriptItems 的主指令。"
+    permission: "ScriptItems.admin"
