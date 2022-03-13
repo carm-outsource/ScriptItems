@@ -95,7 +95,6 @@ public class ItemsManager {
     }
 
     public ItemStack applyTag(@NotNull ItemStack originalItem, String identifier, UUID uuid) {
-        if (!originalItem.hasItemMeta()) return originalItem;
         ItemMeta meta = originalItem.getItemMeta();
         if (meta == null) return originalItem;
         CustomItemTagContainer container = meta.getCustomTagContainer();
