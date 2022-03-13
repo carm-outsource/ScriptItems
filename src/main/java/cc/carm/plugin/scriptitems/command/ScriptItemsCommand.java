@@ -65,7 +65,7 @@ public class ScriptItemsCommand implements CommandExecutor, TabCompleter {
 
                 ItemStack after = settings.applyItem(item);
                 player.getInventory().setItemInMainHand(after);
-                PluginMessages.APPLIED.send(sender);
+                PluginMessages.APPLIED.send(sender, item.getType().name(), settings.getName());
 
                 return true;
             } else if (aim.equalsIgnoreCase("give")) {
