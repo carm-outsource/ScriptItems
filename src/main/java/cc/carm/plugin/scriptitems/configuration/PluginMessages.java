@@ -44,17 +44,18 @@ public class PluginMessages extends MessagesRoot {
             .build();
 
     public final static EasyMessageList GIVEN_ALL = EasyMessageList.builder()
-            .contents("&f您成功给予 &a%(player) &f了 &a%(amount) &f个 &a%(item) &f。")
-            .params("player", "amount", "item").build();
+            .contents("&f您成功给予 &a%(player) &f了 &a%(amount) &f个 &a%(name) &f。")
+            .params("player", "amount", "name").build();
 
     public final static EasyMessageList GIVEN_SOME = EasyMessageList.builder().contents(
-            "&f您成功给予 &a%(player) &f了 &a%(amount) &f个 &a%(item) &f。",
-            "&f但由于目标玩家背包已满，仍有 &a%(remain) &f个 &a%(item) &f未成功放入背包。"
-    ).params("player", "amount", "item", "remain").build();
+            "&f您成功给予 &a%(player) &f了 &a%(amount) &f个 &a%(name) &f。",
+            "&f但由于目标玩家背包已满，仍有 &a%(remain) &f个 &a%(name) &f未成功放入背包。"
+    ).params("player", "amount", "name", "remain").build();
 
 
     public final static EasyMessageList APPLIED = EasyMessageList.builder()
-            .contents("&f已成功为手上物品绑定脚本。").build();
+            .contents("&f成功为手上的 &2%(type) &f绑定了脚本 &a%(name) &f。")
+            .params("type", "name").build();
 
     public static class Restrictions {
 

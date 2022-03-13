@@ -52,7 +52,7 @@ public class ScriptItemsCommand implements CommandExecutor, TabCompleter {
 
                 ItemSettings settings = ScriptItemsAPI.getItemsManager().getItemSettings(args[1]);
                 if (settings == null) {
-                    PluginMessages.NOT_EXISTS.send(sender);
+                    PluginMessages.NOT_EXISTS.send(sender, args[1]);
                     return true;
                 }
 
@@ -78,13 +78,13 @@ public class ScriptItemsCommand implements CommandExecutor, TabCompleter {
                 Player player = Bukkit.getPlayer(args[1]);
 
                 if (player == null) {
-                    PluginMessages.NOT_ONLINE.send(sender);
+                    PluginMessages.NOT_ONLINE.send(sender, args[1]);
                     return true;
                 }
 
                 ItemSettings settings = ScriptItemsAPI.getItemsManager().getItemSettings(args[2]);
                 if (settings == null) {
-                    PluginMessages.NOT_EXISTS.send(sender);
+                    PluginMessages.NOT_EXISTS.send(sender, args[2]);
                     return true;
                 }
 
@@ -109,10 +109,10 @@ public class ScriptItemsCommand implements CommandExecutor, TabCompleter {
 
                 HashMap<Integer, ItemStack> remain = player.getInventory().addItem(item);
                 if (remain.isEmpty()) {
-                    PluginMessages.GIVEN_ALL.send(sender, player, item.getAmount(), settings.getName());
+                    PluginMessages.GIVEN_ALL.send(sender, player.getName(), item.getAmount(), settings.getName());
                 } else {
                     int remainAmount = remain.values().stream().mapToInt(ItemStack::getAmount).sum();
-                    PluginMessages.GIVEN_SOME.send(sender, player, item.getAmount() - remainAmount, settings.getName(), remainAmount);
+                    PluginMessages.GIVEN_SOME.send(sender, player.getName(), item.getAmount() - remainAmount, settings.getName(), remainAmount);
                 }
 
                 return true;
@@ -141,7 +141,7 @@ public class ScriptItemsCommand implements CommandExecutor, TabCompleter {
                 break;
             }
             case 2: {
-                String aim = args[args.length - 1];
+                String aim = args[0];
                 if (aim.equalsIgnoreCase("give")) {
                     allCompletes = Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
                 } else if (aim.equalsIgnoreCase("apply")) {
@@ -150,7 +150,7 @@ public class ScriptItemsCommand implements CommandExecutor, TabCompleter {
                 break;
             }
             case 3: {
-                String aim = args[args.length - 1];
+                String aim = args[0];
                 if (aim.equalsIgnoreCase("give")) {
                     allCompletes = new ArrayList<>(ScriptItemsAPI.getItemsManager().listItemSettings().keySet());
                 }
