@@ -14,7 +14,7 @@
 
     <groupId>cc.carm.plugin</groupId>
     <artifactId>scriptitems</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <name>ScriptItems</name>
     <description>物品操作绑定插件，给予玩家可执行对应操作的物品，基于EasyPlugin实现。</description>
