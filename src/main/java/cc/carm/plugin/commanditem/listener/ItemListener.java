@@ -2,9 +2,11 @@ package cc.carm.plugin.commanditem.listener;
 
 import cc.carm.plugin.commanditem.CommandItemAPI;
 import cc.carm.plugin.commanditem.configuration.PluginConfig;
+import cc.carm.plugin.commanditem.configuration.PluginMessages;
 import cc.carm.plugin.commanditem.item.CommandItem;
 import cc.carm.plugin.commanditem.item.ItemActionGroup;
 import cc.carm.plugin.commanditem.item.ItemRestrictions;
+import cc.carm.plugin.commanditem.item.ItemSettings;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -42,16 +44,21 @@ public class ItemListener implements Listener {
 
         Player player = event.getPlayer();
         if (!isClickable(player.getUniqueId())) {
-            // TODO 给玩家发消息告诉他还在冷却
+            PluginMessages.COOLDOWN.send(player, getRemainSeconds(player.getUniqueId()));
             return;
         }
 
-        if (commandItem.getConfiguration().checkRestrictions() != ItemRestrictions.CheckResult.AVAILABLE) {
-            // TODO 给玩家发消息告诉他还不能用
+        ItemSettings settings = commandItem.getSettings();
+
+        // 检查物品的相关使用限制是否满足要求
+        ItemRestrictions.CheckResult result = settings.getRestrictions().check();
+        if (result != ItemRestrictions.CheckResult.AVAILABLE) {
+            result.send(player, settings.getRestrictions()); // 发送提示
             return;
         }
 
-        ItemActionGroup actions = commandItem.getConfiguration().getPlayerActions(player);
+        // 获取玩家的对应操作组
+        ItemActionGroup actions = settings.getPlayerActions(player);
         if (actions == null) return;
 
         updateTime(player.getUniqueId());
@@ -114,6 +121,13 @@ public class ItemListener implements Listener {
         return !PluginConfig.CoolDown.ENABLE.get()
                 || !this.clickTime.containsKey(uuid)
                 || System.currentTimeMillis() - this.clickTime.get(uuid) > PluginConfig.CoolDown.TIME.get();
+    }
+
+    public int getRemainSeconds(UUID uuid) {
+        if (!this.clickTime.containsKey(uuid)) return 0;
+        if (!PluginConfig.CoolDown.ENABLE.get()) return 0;
+        long start = this.clickTime.get(uuid);
+        return (int) ((PluginConfig.CoolDown.TIME.get() * 1000 - (System.currentTimeMillis() - start)) / 1000) + 1;
     }
 
 

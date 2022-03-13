@@ -9,12 +9,12 @@ public class CommandItem {
 
     @NotNull UUID uuid;
 
-    @NotNull ItemSettings configuration;
+    @NotNull ItemSettings settings;
     @NotNull ItemStack itemStack;
 
-    public CommandItem(@NotNull UUID uuid, @NotNull ItemSettings configuration, @NotNull ItemStack itemStack) {
+    public CommandItem(@NotNull UUID uuid, @NotNull ItemSettings settings, @NotNull ItemStack itemStack) {
         this.uuid = uuid;
-        this.configuration = configuration;
+        this.settings = settings;
         this.itemStack = itemStack;
     }
 
@@ -22,8 +22,8 @@ public class CommandItem {
         return uuid;
     }
 
-    public @NotNull ItemSettings getConfiguration() {
-        return configuration;
+    public @NotNull ItemSettings getSettings() {
+        return settings;
     }
 
     public @NotNull ItemStack getItemStack() {

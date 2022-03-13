@@ -1,10 +1,15 @@
 package cc.carm.plugin.commanditem.item;
 
+import cc.carm.lib.easyplugin.configuration.language.EasyMessageList;
 import cc.carm.lib.easysql.api.util.TimeDateUtils;
-import cc.carm.plugin.commanditem.Main;
+import cc.carm.plugin.commanditem.configuration.PluginMessages;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class ItemRestrictions {
 
@@ -18,7 +23,6 @@ public class ItemRestrictions {
     public ItemRestrictions(long startTime, long endTime) {
         this.startTime = startTime;
         this.endTime = endTime;
-        Main.debugging("ItemRestrictions: " + startTime + " -> " + endTime);
     }
 
     /**
@@ -45,10 +49,41 @@ public class ItemRestrictions {
 
     public enum CheckResult {
 
-        AVAILABLE,
-        INVALID,
-        NOT_STARTED,
-        EXPIRED;
+        AVAILABLE(() -> null, (res) -> null),
+
+        INVALID(() -> PluginMessages.Restrictions.INVALID, (res) -> null),
+
+        NOT_STARTED(
+                () -> PluginMessages.Restrictions.NOT_STARTED,
+                (res) -> new Object[]{TimeDateUtils.getTimeString(res.getStartTime())}
+        ),
+
+        EXPIRED(
+                () -> PluginMessages.Restrictions.EXPIRED,
+                (res) -> new Object[]{TimeDateUtils.getTimeString(res.getEndTime())}
+        );
+
+        Supplier<@Nullable EasyMessageList> message;
+        Function<@NotNull ItemRestrictions, Object[]> params;
+
+        CheckResult(@NotNull Supplier<@Nullable EasyMessageList> message,
+                    @NotNull Function<@NotNull ItemRestrictions, @Nullable Object[]> params) {
+            this.message = message;
+            this.params = params;
+        }
+
+        public Supplier<EasyMessageList> getMessage() {
+            return message;
+        }
+
+        public void send(Player player, ItemRestrictions restrictions) {
+            Object[] params = this.params.apply(restrictions);
+            if (params == null) {
+                getMessage().get().send(player);
+            } else {
+                getMessage().get().send(player, params);
+            }
+        }
 
     }
 
