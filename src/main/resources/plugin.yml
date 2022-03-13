@@ -12,10 +12,3 @@ softdepend:
   - PlaceholderAPI
 
 api-version: 1.13
-
-commands:
-  "CommandItem":
-    aliases:
-      - "CMDItem"
-    description: "CommandItem的主要指令。"
-    usage: "/CommandItem help"

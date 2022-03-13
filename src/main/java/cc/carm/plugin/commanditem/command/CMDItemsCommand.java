@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
 public class CMDItemsCommand {
 
     @Command(
-            name = "CommandItem", aliases = "cmdItem",
+            name = "commanditem", aliases = "cmdItem",
             description = "CommandItem的主要指令。",
             usage = "/CommandItem help",
             permission = "CommandItem.admin"
@@ -23,12 +23,12 @@ public class CMDItemsCommand {
         help(sender);
     }
 
-    @Command(name = "CommandItem.help")
+    @Command(name = "commanditem.help")
     public void help(Context<CommandSender> sender) {
         sender.getSender().sendMessage("§a§lCommandItem §f§l指令帮助");
     }
 
-    @Command(name = "CommandItem.apply", target = CommandTarget.PLAYER)
+    @Command(name = "commanditem.apply", target = CommandTarget.PLAYER)
     @Completer(name = "settings")
     public void apply(Context<Player> sender,
                       ItemSettings settings) {
