@@ -22,20 +22,20 @@
 
     <name>ScriptItems</name>
     <description>物品操作绑定插件，给予玩家可执行对应操作的物品，基于EasyPlugin实现。</description>
-    <url>https://github.com/CarmJos/ScriptItems</url>
+    <url>https://github.com/carm-outsource/ScriptItems</url>
 
     <issueManagement>
         <system>GitHub Issues</system>
-        <url>https://github.com/CarmJos/ScriptItems/issues</url>
+        <url>https://github.com/carm-outsource/ScriptItems/issues</url>
     </issueManagement>
 
     <ciManagement>
         <system>GitHub Actions</system>
-        <url>https://github.com/CarmJos/ScriptItems/actions/workflows/maven.yml</url>
+        <url>https://github.com/carm-outsource/ScriptItems/actions/workflows/maven.yml</url>
     </ciManagement>
 
     <distributionManagement>
-        <downloadUrl>https://github.com/CarmJos/ScriptItems/releases</downloadUrl>
+        <downloadUrl>https://github.com/carm-outsource/ScriptItems/releases</downloadUrl>
     </distributionManagement>
 
     <developers>
