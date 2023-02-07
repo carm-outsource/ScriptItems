@@ -1,12 +1,14 @@
 package cc.carm.plugin.scriptitems.listener;
 
+import cc.carm.lib.easyplugin.utils.EasyCooldown;
 import cc.carm.plugin.scriptitems.ScriptItemsAPI;
-import cc.carm.plugin.scriptitems.configuration.PluginConfig;
-import cc.carm.plugin.scriptitems.configuration.PluginMessages;
-import cc.carm.plugin.scriptitems.item.ScriptItem;
+import cc.carm.plugin.scriptitems.conf.PluginConfig;
+import cc.carm.plugin.scriptitems.conf.PluginMessages;
 import cc.carm.plugin.scriptitems.item.ScriptActionGroup;
-import cc.carm.plugin.scriptitems.item.ScriptRestrictions;
 import cc.carm.plugin.scriptitems.item.ScriptConfiguration;
+import cc.carm.plugin.scriptitems.item.ScriptItem;
+import cc.carm.plugin.scriptitems.item.ScriptRestrictions;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -19,14 +21,19 @@ import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.UUID;
 
 public class ItemListener implements Listener {
 
-    private final HashMap<UUID, Long> clickTime = new HashMap<>();
+    private final EasyCooldown<Player, UUID> cooldown = new EasyCooldown<Player, UUID>(Entity::getUniqueId) {
+        @Override
+        public long getDuration(@NotNull Player provider) {
+            return PluginConfig.COOLDOWN.ENABLE.getNotNull() ? PluginConfig.COOLDOWN.DURATION.getNotNull() : -1;
+        }
+    };
 
     /**
      * 监听玩家点击，并执行物品对应的操作。
@@ -43,11 +50,11 @@ public class ItemListener implements Listener {
         event.setCancelled(true); // 阻止事件执行
 
         Player player = event.getPlayer();
-        if (!isClickable(player.getUniqueId())) {
-            PluginMessages.COOLDOWN.send(player, getRemainSeconds(player.getUniqueId()));
+        if (cooldown.isCoolingDown(player)) {
+            PluginMessages.COOLDOWN.send(player, cooldown.getCooldownSeconds(player));
             return;
         }
-        updateTime(player.getUniqueId());
+        cooldown.updateTime(player);
 
         ScriptConfiguration settings = scriptItem.getSettings();
 
@@ -110,24 +117,7 @@ public class ItemListener implements Listener {
 
     @EventHandler
     public void onLeave(PlayerQuitEvent event) {
-        this.clickTime.remove(event.getPlayer().getUniqueId());
-    }
-
-    public void updateTime(UUID uuid) {
-        this.clickTime.put(uuid, System.currentTimeMillis());
-    }
-
-    public boolean isClickable(UUID uuid) {
-        return !PluginConfig.CoolDown.ENABLE.get()
-                || !this.clickTime.containsKey(uuid)
-                || System.currentTimeMillis() - this.clickTime.get(uuid) > PluginConfig.CoolDown.TIME.get();
-    }
-
-    public int getRemainSeconds(UUID uuid) {
-        if (!this.clickTime.containsKey(uuid)) return 0;
-        if (!PluginConfig.CoolDown.ENABLE.get()) return 0;
-        long start = this.clickTime.get(uuid);
-        return (int) ((PluginConfig.CoolDown.TIME.get() - (System.currentTimeMillis() - start)) / 1000) + 1;
+        cooldown.clear(event.getPlayer());
     }
 
 

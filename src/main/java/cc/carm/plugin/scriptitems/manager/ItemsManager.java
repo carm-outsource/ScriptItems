@@ -1,9 +1,9 @@
 package cc.carm.plugin.scriptitems.manager;
 
+import cc.carm.lib.easyplugin.utils.JarResourceUtils;
 import cc.carm.plugin.scriptitems.Main;
 import cc.carm.plugin.scriptitems.item.ScriptConfiguration;
 import cc.carm.plugin.scriptitems.item.ScriptItem;
-import cc.carm.plugin.scriptitems.util.JarResourceUtils;
 import com.google.common.collect.ImmutableMap;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

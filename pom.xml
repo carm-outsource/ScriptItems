@@ -5,16 +5,20 @@
     <modelVersion>4.0.0</modelVersion>
 
     <properties>
-        <java.version>8</java.version>
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
-        <easyplugin.version>1.3.9</easyplugin.version>
-        <easysql.version>0.3.8</easysql.version>
+        <project.jdk.version>8</project.jdk.version>
+        <maven.compiler.source>${project.jdk.version}</maven.compiler.source>
+        <maven.compiler.target>${project.jdk.version}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+
+        <deps.easyplugin.version>1.4.18</deps.easyplugin.version>
+        <deps.easysql.version>0.4.6</deps.easysql.version>
+        <deps.mineconfig.version>2.3.0</deps.mineconfig.version>
     </properties>
 
     <groupId>cc.carm.plugin</groupId>
     <artifactId>scriptitems</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
 
     <name>ScriptItems</name>
     <description>物品操作绑定插件，给予玩家可执行对应操作的物品，基于EasyPlugin实现。</description>
@@ -74,7 +78,7 @@
         <dependency>
             <groupId>cc.carm.lib</groupId>
             <artifactId>easysql-beecp</artifactId>
-            <version>${easysql.version}</version>
+            <version>${deps.easysql.version}</version>
             <scope>compile</scope>
             <optional>true</optional>
         </dependency>
@@ -82,23 +86,31 @@
         <dependency>
             <groupId>cc.carm.lib</groupId>
             <artifactId>easyplugin-main</artifactId>
-            <version>${easyplugin.version}</version>
+            <version>${deps.easyplugin.version}</version>
             <scope>compile</scope>
             <optional>true</optional>
         </dependency>
 
         <dependency>
             <groupId>cc.carm.lib</groupId>
-            <artifactId>easyplugin-configuration</artifactId>
-            <version>${easyplugin.version}</version>
+            <artifactId>easyplugin-command</artifactId>
+            <version>${deps.easyplugin.version}</version>
             <scope>compile</scope>
             <optional>true</optional>
         </dependency>
 
         <dependency>
             <groupId>cc.carm.lib</groupId>
-            <artifactId>githubreleases4j</artifactId>
-            <version>1.3.1</version>
+            <artifactId>easyplugin-githubchecker</artifactId>
+            <version>${deps.easyplugin.version}</version>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>cc.carm.lib</groupId>
+            <artifactId>mineconfiguration-bukkit</artifactId>
+            <version>${deps.mineconfig.version}</version>
             <scope>compile</scope>
             <optional>true</optional>
         </dependency>
@@ -114,13 +126,6 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.13.2-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot</artifactId>
             <version>1.13.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
@@ -159,7 +164,7 @@
                 <configuration>
                     <filesets>
                         <fileset>
-                            <directory>${project.basedir}/asset/</directory>
+                            <directory>${project.basedir}/.asset/</directory>
                             <useDefaultExcludes>true</useDefaultExcludes>
                             <includes>
                                 <include>**/*</include>
@@ -188,8 +193,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <source>${project.jdk.version}</source>
+                    <target>${project.jdk.version}</target>
                     <encoding>UTF-8</encoding>
                     <compilerArgument>-parameters</compilerArgument>
                 </configuration>
@@ -229,8 +234,7 @@
                 </executions>
                 <configuration>
                     <finalName>${project.name}-${project.version}</finalName>
-                    <outputDirectory>${project.basedir}/asset</outputDirectory>
-                    <minimizeJar>true</minimizeJar>
+                    <outputDirectory>${project.basedir}/.asset</outputDirectory>
                     <relocations>
                         <relocation>
                             <pattern>cc.carm.lib</pattern>

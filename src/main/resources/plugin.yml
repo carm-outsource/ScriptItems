@@ -15,7 +15,8 @@ api-version: 1.13
 
 commands:
   "ScriptItems":
-    aliases: "sitems"
+    aliases:
+      - sitems
     usage: "/ScriptItems help"
     description: "ScriptItems 的主指令。"
     permission: "ScriptItems.admin"

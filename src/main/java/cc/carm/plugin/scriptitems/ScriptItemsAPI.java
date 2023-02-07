@@ -1,6 +1,5 @@
 package cc.carm.plugin.scriptitems;
 
-import cc.carm.plugin.scriptitems.manager.ConfigManager;
 import cc.carm.plugin.scriptitems.manager.ItemsManager;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -11,10 +10,6 @@ public class ScriptItemsAPI {
 
     public static ItemsManager getItemsManager() {
         return Main.getInstance().itemsManager;
-    }
-
-    public static ConfigManager getConfigManager() {
-        return Main.getInstance().configManager;
     }
 
     public static boolean hasEmptySlot(Player player) {

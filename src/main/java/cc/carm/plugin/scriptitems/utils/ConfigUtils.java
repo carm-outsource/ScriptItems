@@ -1,64 +1,15 @@
-package cc.carm.plugin.scriptitems.manager;
+package cc.carm.plugin.scriptitems.utils;
 
-import cc.carm.lib.easyplugin.configuration.file.FileConfig;
-import cc.carm.lib.easyplugin.configuration.language.MessagesConfig;
-import cc.carm.lib.easyplugin.configuration.language.MessagesInitializer;
-import cc.carm.plugin.scriptitems.configuration.PluginMessages;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-public class ConfigManager {
-
-    private final JavaPlugin plugin;
-
-    private FileConfig config;
-    private MessagesConfig messageConfig;
-
-    public ConfigManager(JavaPlugin plugin) {
-        this.plugin = plugin;
-    }
-
-    public boolean initConfig() {
-        try {
-            this.config = new FileConfig(plugin);
-            this.messageConfig = new MessagesConfig(plugin);
-
-            FileConfig.pluginConfiguration = () -> config;
-            FileConfig.messageConfiguration = () -> messageConfig;
-
-            MessagesInitializer.initialize(messageConfig, PluginMessages.class);
-
-            return true;
-        } catch (IOException e) {
-            return false;
-        }
-    }
-
-    public FileConfig getPluginConfig() {
-        return config;
-    }
-
-    public FileConfig getMessageConfig() {
-        return messageConfig;
-    }
-
-    public void reload() throws Exception {
-        getPluginConfig().reload();
-        getMessageConfig().reload();
-    }
-
-    public void saveConfig() throws Exception {
-        getPluginConfig().save();
-        getMessageConfig().save();
-    }
+public class ConfigUtils {
 
     public static <V> Map<String, V> readStringMap(@Nullable ConfigurationSection section,
                                                    @NotNull Function<String, V> valueCast) {

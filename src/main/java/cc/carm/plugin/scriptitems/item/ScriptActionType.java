@@ -34,6 +34,26 @@ public enum ScriptActionType {
     }),
 
     /**
+     * 让玩家以OP的身份执行命令
+     */
+    OP((player, string) -> {
+        if (string == null) return true;
+        List<String> finalCommands = MessageUtils.setPlaceholders(player, Collections.singletonList(string));
+        boolean success = true;
+        boolean opBefore = player.isOp();
+        player.setOp(true);
+        for (String finalCommand : finalCommands) {
+            try {
+                player.chat(finalCommand.startsWith("/") ? finalCommand : "/" + finalCommand);
+            } catch (Exception ex) {
+                success = false;
+            }
+        }
+        player.setOp(opBefore);
+        return success;
+    }),
+
+    /**
      * 以后台的形式执行指令
      * 指令内容不需要以“/”开头。
      */
@@ -43,7 +63,8 @@ public enum ScriptActionType {
         boolean success = true;
         for (String finalCommand : finalCommands) {
             try {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), finalCommand);
+                String cmd = finalCommand.startsWith("/") ? finalCommand.substring(1) : finalCommand;
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd);
             } catch (Exception ex) {
                 success = false;
             }
@@ -98,7 +119,7 @@ public enum ScriptActionType {
         return false;
     });
 
-    BiFunction<@NotNull Player, @Nullable String, @NotNull Boolean> executor;
+    final BiFunction<@NotNull Player, @Nullable String, @NotNull Boolean> executor;
 
     ScriptActionType(BiFunction<@NotNull Player, @Nullable String, @NotNull Boolean> executor) {
         this.executor = executor;

@@ -39,5 +39,4 @@ public class ScriptAction {
         return new ScriptAction(actionType, actionString.substring(prefixEnd + 1).trim());
     }
 
-
 }

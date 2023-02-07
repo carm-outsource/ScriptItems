@@ -1,8 +1,8 @@
 package cc.carm.plugin.scriptitems.item;
 
-import cc.carm.lib.easyplugin.configuration.language.EasyMessageList;
 import cc.carm.lib.easysql.api.util.TimeDateUtils;
-import cc.carm.plugin.scriptitems.configuration.PluginMessages;
+import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
+import cc.carm.plugin.scriptitems.conf.PluginMessages;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -51,28 +51,28 @@ public class ScriptRestrictions {
 
         AVAILABLE(() -> null, (res) -> null),
 
-        INVALID(() -> PluginMessages.Restrictions.INVALID, (res) -> null),
+        INVALID(() -> PluginMessages.RESTRICTIONS.INVALID, (res) -> null),
 
         NOT_STARTED(
-                () -> PluginMessages.Restrictions.NOT_STARTED,
+                () -> PluginMessages.RESTRICTIONS.NOT_STARTED,
                 (res) -> new Object[]{TimeDateUtils.getTimeString(res.getStartTime())}
         ),
 
         EXPIRED(
-                () -> PluginMessages.Restrictions.EXPIRED,
+                () -> PluginMessages.RESTRICTIONS.EXPIRED,
                 (res) -> new Object[]{TimeDateUtils.getTimeString(res.getEndTime())}
         );
 
-        Supplier<@Nullable EasyMessageList> message;
-        Function<@NotNull ScriptRestrictions, Object[]> params;
+        private final Supplier<@Nullable ConfiguredMessageList<?>> message;
+        private final Function<@NotNull ScriptRestrictions, Object[]> params;
 
-        CheckResult(@NotNull Supplier<@Nullable EasyMessageList> message,
+        CheckResult(@NotNull Supplier<@Nullable ConfiguredMessageList<?>> message,
                     @NotNull Function<@NotNull ScriptRestrictions, @Nullable Object[]> params) {
             this.message = message;
             this.params = params;
         }
 
-        public Supplier<EasyMessageList> getMessage() {
+        public Supplier<ConfiguredMessageList<?>> getMessage() {
             return message;
         }
 

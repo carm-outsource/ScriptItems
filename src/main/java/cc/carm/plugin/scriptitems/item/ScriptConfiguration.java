@@ -1,7 +1,7 @@
 package cc.carm.plugin.scriptitems.item;
 
 import cc.carm.plugin.scriptitems.ScriptItemsAPI;
-import cc.carm.plugin.scriptitems.manager.ConfigManager;
+import cc.carm.plugin.scriptitems.utils.ConfigUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -105,8 +105,9 @@ public class ScriptConfiguration {
                         ItemStackConfig.create(config.getItemStack("item")) :
                         ItemStackConfig.read(config.getConfigurationSection("item")),
                 ScriptRestrictions.read(config.getConfigurationSection("restrictions")),
-                ConfigManager.readStringMap(config.getConfigurationSection("permissions"), (s -> s)),
-                ConfigManager.readListMap(config.getConfigurationSection("actions"), ScriptActionGroup::read)
+                ConfigUtils.readStringMap(config.getConfigurationSection("permissions"), (s -> s)),
+                ConfigUtils.readListMap(config.getConfigurationSection("actions"), ScriptActionGroup::read)
         );
     }
+
 }
