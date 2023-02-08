@@ -8,6 +8,7 @@ import cc.carm.plugin.scriptitems.command.MainCommand;
 import cc.carm.plugin.scriptitems.conf.PluginConfig;
 import cc.carm.plugin.scriptitems.conf.PluginMessages;
 import cc.carm.plugin.scriptitems.listener.ItemListener;
+import cc.carm.plugin.scriptitems.listener.ProtectListener;
 import cc.carm.plugin.scriptitems.manager.ItemsManager;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -45,6 +46,7 @@ public class Main extends EasyPlugin {
 
         info("注册监听器...");
         registerListener(new ItemListener());
+        registerListener(new ProtectListener(this));
 
         if (PluginConfig.METRICS.getNotNull()) {
             info("启用统计数据...");

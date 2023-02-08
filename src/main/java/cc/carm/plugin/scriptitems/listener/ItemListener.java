@@ -9,21 +9,15 @@ import cc.carm.plugin.scriptitems.item.ScriptConfiguration;
 import cc.carm.plugin.scriptitems.item.ScriptItem;
 import cc.carm.plugin.scriptitems.item.ScriptRestrictions;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityPickupItemEvent;
-import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.UUID;
 
 public class ItemListener implements Listener {
@@ -72,48 +66,6 @@ public class ItemListener implements Listener {
         actions.execute(player);
     }
 
-    /**
-     * 监听玩家合成，阻止玩家将指令物品合成浪费掉。
-     *
-     * @param event 合成事件
-     */
-    @EventHandler
-    public void onCraft(CraftItemEvent event) {
-        boolean shouldCancel = Arrays.stream(event.getInventory().getMatrix())
-                .anyMatch(matrix -> ScriptItemsAPI.getItemsManager().isScriptItem(matrix));
-
-        if (shouldCancel) event.setCancelled(true);
-    }
-
-    /**
-     * 阻止非玩家捡起指令物品
-     *
-     * @param event 捡起事件
-     */
-    @EventHandler
-    public void onPickup(EntityPickupItemEvent event) {
-        if (event.getEntity().getType() == EntityType.PLAYER) return;
-
-        ItemStack item = event.getItem().getItemStack();
-        if (ScriptItemsAPI.getItemsManager().isScriptItem(item)) {
-            event.setCancelled(true);
-        }
-    }
-
-    /**
-     * 阻止物品被烧掉
-     *
-     * @param event 伤害事件
-     */
-    @EventHandler
-    public void onEntityDamage(EntityDamageEvent event) {
-        if (event.getEntity().getType() != EntityType.DROPPED_ITEM) return;
-        Item droppedItem = ((org.bukkit.entity.Item) event.getEntity());
-        ItemStack item = droppedItem.getItemStack();
-        if (ScriptItemsAPI.getItemsManager().isScriptItem(item)) {
-            event.setCancelled(true);
-        }
-    }
 
     @EventHandler
     public void onLeave(PlayerQuitEvent event) {

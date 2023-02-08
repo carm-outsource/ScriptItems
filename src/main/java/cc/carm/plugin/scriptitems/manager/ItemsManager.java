@@ -118,8 +118,9 @@ public class ItemsManager {
         return new ScriptItem(UUID.fromString(itemUUID), settings, item);
     }
 
-    public boolean isScriptItem(ItemStack item) {
-        return item.hasItemMeta() && item.getItemMeta() != null
+    public boolean isScriptItem(@Nullable ItemStack item) {
+        return item != null && item.getType() != Material.AIR
+                && item.hasItemMeta() && item.getItemMeta() != null
                 && item.getItemMeta().getCustomTagContainer().hasCustomTag(idKey, ItemTagType.STRING);
     }
 
