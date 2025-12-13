@@ -12,6 +12,9 @@ import cc.carm.plugin.scriptitems.listener.ProtectListener;
 import cc.carm.plugin.scriptitems.manager.ItemsManager;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
+
+import java.lang.reflect.Method;
 
 public class Main extends EasyPlugin {
 
@@ -106,6 +109,22 @@ public class Main extends EasyPlugin {
             return true;
         } catch (ClassNotFoundException e) {
             return false;
+        }
+    }
+
+    public static void execute(Runnable task) {
+        if (isFolia()) {
+            try {
+                Method getSchedulerMethod = Main.getInstance().getServer().getClass().getMethod("getGlobalRegionScheduler");
+                Object scheduler = getSchedulerMethod.invoke(Main.getInstance().getServer());
+                Method executeMethod = scheduler.getClass().getMethod("execute", Plugin.class, Runnable.class);
+                executeMethod.invoke(scheduler, Main.getInstance(), task);
+            } catch (Exception e) {
+                Main.severe("Failed to execute command on Folia");
+                e.printStackTrace();
+            }
+        } else {
+            Main.getInstance().getScheduler().run(task);
         }
     }
 }

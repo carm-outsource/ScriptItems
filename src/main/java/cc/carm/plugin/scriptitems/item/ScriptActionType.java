@@ -1,6 +1,9 @@
 package cc.carm.plugin.scriptitems.item;
 
 import cc.carm.lib.easyplugin.utils.MessageUtils;
+import cc.carm.plugin.scriptitems.utils.ScriptExecutor;
+import com.cryptomorin.xseries.XSound;
+import com.cryptomorin.xseries.base.XModule;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -9,9 +12,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.function.BiFunction;
 
 public enum ScriptActionType {
 
@@ -20,37 +20,24 @@ public enum ScriptActionType {
      * 若内容以 “/" 开头，则会以玩家身份执行命令。
      */
     CHAT((player, string) -> {
-        if (string == null) return true; //没有需要执行的
-        List<String> finalContents = MessageUtils.setPlaceholders(player, Collections.singletonList(string));
-        boolean success = true;
-        for (String finalContent : finalContents) {
-            try {
-                player.chat(finalContent);
-            } catch (Exception ex) {
-                success = false;
-            }
-        }
-        return success;
+        if (string == null) return; //没有需要执行的
+        String contents = MessageUtils.setPlaceholders(player, string);
+        if (contents == null || contents.isEmpty()) return;
+        player.chat(contents);
     }),
 
     /**
      * 让玩家以OP的身份执行命令
      */
     OP((player, string) -> {
-        if (string == null) return true;
-        List<String> finalCommands = MessageUtils.setPlaceholders(player, Collections.singletonList(string));
-        boolean success = true;
+        if (string == null) return;
+        String cmd = MessageUtils.setPlaceholders(player, string);
+        if (cmd == null || cmd.isEmpty()) return;
+
         boolean opBefore = player.isOp();
         player.setOp(true);
-        for (String finalCommand : finalCommands) {
-            try {
-                player.chat(finalCommand.startsWith("/") ? finalCommand : "/" + finalCommand);
-            } catch (Exception ex) {
-                success = false;
-            }
-        }
+        player.chat(cmd.startsWith("/") ? cmd : "/" + cmd);
         player.setOp(opBefore);
-        return success;
     }),
 
     /**
@@ -58,27 +45,16 @@ public enum ScriptActionType {
      * 指令内容不需要以“/”开头。
      */
     CONSOLE((player, string) -> {
-        if (string == null) return true;
-        List<String> finalCommands = MessageUtils.setPlaceholders(player, Collections.singletonList(string));
-        boolean success = true;
-        for (String finalCommand : finalCommands) {
-            try {
-                String cmd = finalCommand.startsWith("/") ? finalCommand.substring(1) : finalCommand;
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd);
-            } catch (Exception ex) {
-                success = false;
-            }
-        }
-        return success;
+        if (string == null) return;
+        String cmd = MessageUtils.setPlaceholders(player, string);
+        if (cmd == null || cmd.isEmpty()) return;
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.startsWith("/") ? cmd.substring(1) : cmd);
     }),
 
     /**
      * 向玩家发送消息。
      */
-    MESSAGE((sender, messages) -> {
-        MessageUtils.send(sender, messages);
-        return true;
-    }),
+    MESSAGE(MessageUtils::send),
 
     /**
      * 向玩家发送声音。
@@ -90,21 +66,15 @@ public enum ScriptActionType {
      * </ul>
      */
     SOUND((player, string) -> {
-        if (string == null) return true;
-        try {
-            String[] args = string.contains(":") ? string.split(":") : new String[]{string};
-            Sound sound = Arrays.stream(Sound.values())
-                    .filter(s -> s.name().equals(args[0]))
-                    .findFirst().orElse(null);
+        if (string == null) return;
+        String[] args = string.contains(":") ? string.split(":") : new String[]{string};
+        Sound sound = XSound.of(args[0].toUpperCase()).map(XModule::get).orElse(null);
 
-            if (sound == null) return true;
-            float volume = args.length > 1 ? Float.parseFloat(args[1]) : 1F;
-            float pitch = args.length > 2 ? Float.parseFloat(args[2]) : 1F;
+        if (sound == null) throw new IllegalArgumentException("不存在该声音类型: " + args[0]);
+        float volume = args.length > 1 ? Float.parseFloat(args[1]) : 1F;
+        float pitch = args.length > 2 ? Float.parseFloat(args[2]) : 1F;
 
-            player.playSound(player.getLocation(), sound, volume, pitch);
-        } catch (Exception ignored) {
-        }
-        return true; // 声音放不放无关紧要
+        player.playSound(player.getLocation(), sound, volume, pitch);
     }),
 
     /**
@@ -114,23 +84,23 @@ public enum ScriptActionType {
         if (player.getInventory().getItemInMainHand().getType() != Material.AIR) {
             int current = player.getInventory().getItemInMainHand().getAmount();
             player.getInventory().getItemInMainHand().setAmount(current - 1);
-            return true;
+        } else {
+            throw new IllegalStateException("玩家手上没有物品可供拿取");
         }
-        return false;
     });
 
-    final BiFunction<@NotNull Player, @Nullable String, @NotNull Boolean> executor;
+    final @NotNull ScriptExecutor executor;
 
-    ScriptActionType(BiFunction<@NotNull Player, @Nullable String, @NotNull Boolean> executor) {
+    ScriptActionType(@NotNull ScriptExecutor executor) {
         this.executor = executor;
     }
 
-    public BiFunction<Player, String, Boolean> getExecutor() {
+    public @NotNull ScriptExecutor getExecutor() {
         return executor;
     }
 
-    public boolean execute(@NotNull Player player, @Nullable String content) {
-        return getExecutor().apply(player, content);
+    public void execute(@NotNull Player player, @Nullable String content) throws Exception {
+        getExecutor().execute(player, content);
     }
 
     public static ScriptActionType read(String string) {

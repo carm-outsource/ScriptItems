@@ -1,5 +1,6 @@
 package cc.carm.plugin.scriptitems.item;
 
+import cc.carm.plugin.scriptitems.Main;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,7 +18,20 @@ public class ScriptActionGroup {
     }
 
     public void execute(Player player) {
-        actions.forEach(action -> action.execute(player));
+        for (ScriptAction action : actions) { // Take actions first
+            if (action.getType() == ScriptActionType.TAKE) {
+                action.execute(player);
+            }
+        }
+
+        Main.execute(() -> {
+            for (ScriptAction action : actions) {
+                if (action.getType() != ScriptActionType.TAKE) {
+                    action.execute(player);
+                }
+            }
+        });
+
     }
 
     public static @NotNull ScriptActionGroup read(@NotNull List<String> actionsString) {

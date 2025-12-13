@@ -143,6 +143,23 @@
             <scope>provided</scope>
         </dependency>
 
+<!--        <dependency>-->
+<!--            <groupId>io.papermc.paper</groupId>-->
+<!--            <artifactId>paper-api</artifactId>-->
+<!--            <version>1.21.10-R0.1-SNAPSHOT</version>-->
+<!--            <scope>provided</scope>-->
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.bukkit</groupId>-->
+<!--                    <artifactId>craftbukkit</artifactId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.spigotmc</groupId>-->
+<!--                    <artifactId>spigot-api</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+<!--        </dependency>-->
+
         <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>

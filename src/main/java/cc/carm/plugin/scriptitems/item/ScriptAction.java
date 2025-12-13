@@ -1,5 +1,6 @@
 package cc.carm.plugin.scriptitems.item;
 
+import cc.carm.plugin.scriptitems.Main;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -22,8 +23,13 @@ public class ScriptAction {
         return actionContent;
     }
 
-    public boolean execute(Player player) {
-        return getType().execute(player, getActionContent());
+    public void execute(Player player) {
+        try {
+            getType().execute(player, getActionContent());
+        } catch (Exception ex) {
+            Main.severe("在为玩家执行 脚本动作 时发生错误: " + ex.getMessage());
+            ex.printStackTrace();
+        }
     }
 
     public static @Nullable ScriptAction read(@Nullable String actionString) {
