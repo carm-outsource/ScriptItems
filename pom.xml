@@ -66,6 +66,11 @@
         </repository>
 
         <repository>
+            <id>papermc</id>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
+        </repository>
+
+        <repository>
             <id>carm-repo</id>
             <name>Carm's Repo</name>
             <url>https://repo.carm.cc/repository/maven-public/</url>

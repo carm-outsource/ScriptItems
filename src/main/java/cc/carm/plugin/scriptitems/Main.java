@@ -53,7 +53,7 @@ public class Main extends EasyPlugin {
             new Metrics(this, 14615);
         }
 
-        if (PluginConfig.CHECK_UPDATE.getNotNull()) {
+        if (PluginConfig.CHECK_UPDATE.getNotNull() && !isFolia()) {
             log("开始检查更新...");
             getScheduler().runAsync(GHUpdateChecker.runner(this));
         } else {
@@ -98,5 +98,14 @@ public class Main extends EasyPlugin {
 
     public ConfigurationHolder<?> getMessageProvider() {
         return messageProvider;
+    }
+
+    private static boolean isFolia() {
+        try {
+            Class.forName("io.papermc.paper.threadedregions.RegionizedServer");
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
     }
 }
