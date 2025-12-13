@@ -12,11 +12,12 @@ softdepend:
   - PlaceholderAPI
 
 api-version: 1.13
+folia-supported: true
 
 commands:
-  "ScriptItems":
+  "scriptitems":
     aliases:
       - sitems
-    usage: "/ScriptItems help"
+    usage: "/scriptitems help"
     description: "ScriptItems 的主指令。"
     permission: "ScriptItems.admin"

@@ -21,13 +21,13 @@ public class MainCommand extends CommandHandler {
 
     @Override
     public Void noArgs(CommandSender sender) {
-        PluginMessages.USAGE.send(sender);
+        PluginMessages.USAGE.sendTo(sender);
         return null;
     }
 
     @Override
     public Void noPermission(CommandSender sender) {
-        PluginMessages.NO_PERMISSION.send(sender);
+        PluginMessages.NO_PERMISSION.sendTo(sender);
         return null;
     }
 
@@ -37,7 +37,7 @@ public class MainCommand extends CommandHandler {
     }
 
     public Void onlyPlay(CommandSender sender) {
-        PluginMessages.ONLY_PLAYER.send(sender);
+        PluginMessages.ONLY_PLAYER.sendTo(sender);
         return null;
     }
 }

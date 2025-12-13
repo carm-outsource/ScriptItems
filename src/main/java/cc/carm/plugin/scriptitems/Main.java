@@ -1,6 +1,6 @@
 package cc.carm.plugin.scriptitems;
 
-import cc.carm.lib.configuration.core.source.ConfigurationProvider;
+import cc.carm.lib.configuration.source.ConfigurationHolder;
 import cc.carm.lib.easyplugin.EasyPlugin;
 import cc.carm.lib.easyplugin.updatechecker.GHUpdateChecker;
 import cc.carm.lib.mineconfiguration.bukkit.MineConfiguration;
@@ -21,8 +21,8 @@ public class Main extends EasyPlugin {
         instance = this;
     }
 
-    protected ConfigurationProvider<?> configProvider;
-    protected ConfigurationProvider<?> messageProvider;
+    protected ConfigurationHolder<?> configProvider;
+    protected ConfigurationHolder<?> messageProvider;
 
     protected ItemsManager itemsManager;
 
@@ -42,7 +42,7 @@ public class Main extends EasyPlugin {
         this.itemsManager.initialize();
 
         info("注册指令...");
-        registerCommand("ScriptItems", new MainCommand(this));
+        registerCommand("ScriptItems".toLowerCase(), new MainCommand(this));
 
         info("注册监听器...");
         registerListener(new ItemListener());
@@ -92,11 +92,11 @@ public class Main extends EasyPlugin {
         getInstance().debug(messages);
     }
 
-    public ConfigurationProvider<?> getConfigProvider() {
+    public ConfigurationHolder<?> getConfigProvider() {
         return configProvider;
     }
 
-    public ConfigurationProvider<?> getMessageProvider() {
+    public ConfigurationHolder<?> getMessageProvider() {
         return messageProvider;
     }
 }

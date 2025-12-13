@@ -14,11 +14,11 @@
 
 脚本物品插件，给予玩家可执行对应操作的物品，基于EasyPlugin实现。
 
-本插件由 [ArtStyle(艺式)](https://artstyle.wiki/)、[猫窝](https://maowo.moe) 提供开发资助。
+本插件由 [ArtStyle(艺式)](https://artstyle.wiki/)、[猫窝](https://maowo.moe)、[奥林匹亚](www.mcolympia.site) 提供开发资助。
 
 ## 插件功能与优势
 
-> 加 * 的功能仍在开发中。
+> 加 * 的功能仍在开发中。  
 
 - 物品操作绑定，给予玩家可执行对应操作设置的物品，支持PlaceholderAPI变量。
     - 目前支持的操作有:

@@ -1,6 +1,6 @@
 package cc.carm.plugin.scriptitems.listener;
 
-import cc.carm.lib.easyplugin.listener.EasyListener;
+import cc.carm.lib.easylistener.EasyListener;
 import cc.carm.plugin.scriptitems.ScriptItemsAPI;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
@@ -36,7 +36,7 @@ public class ProtectListener extends EasyListener {
 
         // 阻止物品被烧掉
         handleEvent(EntityDamageEvent.class)
-                .filter(e -> e.getEntity().getType() == EntityType.DROPPED_ITEM)
+                .filter(e -> e.getEntity() instanceof Item)
                 .filter(e -> isScriptItem(((Item) e.getEntity()).getItemStack()))
                 .cancel();
 

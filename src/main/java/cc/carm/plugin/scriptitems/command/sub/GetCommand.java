@@ -30,7 +30,7 @@ public class GetCommand extends SubCommand<MainCommand> {
 
         ScriptConfiguration settings = ScriptItemsAPI.getItemsManager().getItemSettings(args[0]);
         if (settings == null) {
-            PluginMessages.NOT_EXISTS.send(sender, args[0]);
+            PluginMessages.NOT_EXISTS.sendTo(sender, args[0]);
             return null;
         }
 
@@ -44,22 +44,22 @@ public class GetCommand extends SubCommand<MainCommand> {
         }
 
         if (amount < 1) {
-            PluginMessages.WRONG_AMOUNT.send(sender);
+            PluginMessages.WRONG_AMOUNT.sendTo(sender);
             return null;
         }
 
         ItemStack item = settings.generateItem(amount);
         if (item == null) {
-            PluginMessages.WRONG_ITEM.send(sender);
+            PluginMessages.WRONG_ITEM.sendTo(sender);
             return null;
         }
 
         HashMap<Integer, ItemStack> remain = player.getInventory().addItem(item);
         if (remain.isEmpty()) {
-            PluginMessages.GIVEN_ALL.send(sender, player.getName(), amount, settings.getName());
+            PluginMessages.GIVEN_ALL.sendTo(sender, player.getName(), amount, settings.getName());
         } else {
             int remainAmount = remain.values().stream().mapToInt(ItemStack::getAmount).sum();
-            PluginMessages.GIVEN_SOME.send(sender, player.getName(), amount - remainAmount, settings.getName(), remainAmount);
+            PluginMessages.GIVEN_SOME.sendTo(sender, player.getName(), amount - remainAmount, settings.getName(), remainAmount);
         }
 
         return null;

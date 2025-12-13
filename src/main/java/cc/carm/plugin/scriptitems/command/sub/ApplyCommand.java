@@ -28,20 +28,20 @@ public class ApplyCommand extends SubCommand<MainCommand> {
 
         ScriptConfiguration settings = ScriptItemsAPI.getItemsManager().getItemSettings(args[0]);
         if (settings == null) {
-            PluginMessages.NOT_EXISTS.send(sender, args[1]);
+            PluginMessages.NOT_EXISTS.sendTo(sender, args[1]);
             return null;
         }
 
         Player player = (Player) sender;
         ItemStack item = player.getInventory().getItemInMainHand();
         if (item.getType() == Material.AIR) {
-            PluginMessages.USE_ITEM.send(sender);
+            PluginMessages.USE_ITEM.sendTo(sender);
             return null;
         }
 
         ItemStack after = settings.applyItem(item.clone());
         player.getInventory().setItemInMainHand(after);
-        PluginMessages.APPLIED.send(sender, item.getType().name(), settings.getName());
+        PluginMessages.APPLIED.sendTo(sender, item.getType().name(), settings.getName());
         return null;
     }
 

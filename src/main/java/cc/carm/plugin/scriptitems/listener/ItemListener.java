@@ -45,7 +45,7 @@ public class ItemListener implements Listener {
 
         Player player = event.getPlayer();
         if (cooldown.isCoolingDown(player)) {
-            PluginMessages.COOLDOWN.send(player, cooldown.getCooldownSeconds(player));
+            PluginMessages.COOLDOWN.sendTo(player, cooldown.getCooldownSeconds(player));
             return;
         }
         cooldown.updateTime(player);

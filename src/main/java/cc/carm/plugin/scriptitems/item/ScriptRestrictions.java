@@ -1,7 +1,7 @@
 package cc.carm.plugin.scriptitems.item;
 
 import cc.carm.lib.easysql.api.util.TimeDateUtils;
-import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
+import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessage;
 import cc.carm.plugin.scriptitems.conf.PluginMessages;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -63,25 +63,25 @@ public class ScriptRestrictions {
                 (res) -> new Object[]{TimeDateUtils.getTimeString(res.getEndTime())}
         );
 
-        private final Supplier<@Nullable ConfiguredMessageList<?>> message;
+        private final Supplier<@Nullable ConfiguredMessage<?>> message;
         private final Function<@NotNull ScriptRestrictions, Object[]> params;
 
-        CheckResult(@NotNull Supplier<@Nullable ConfiguredMessageList<?>> message,
+        CheckResult(@NotNull Supplier<@Nullable ConfiguredMessage<?>> message,
                     @NotNull Function<@NotNull ScriptRestrictions, @Nullable Object[]> params) {
             this.message = message;
             this.params = params;
         }
 
-        public Supplier<ConfiguredMessageList<?>> getMessage() {
+        public Supplier<ConfiguredMessage<?>> getMessage() {
             return message;
         }
 
         public void send(Player player, ScriptRestrictions restrictions) {
             Object[] params = this.params.apply(restrictions);
             if (params == null) {
-                getMessage().get().send(player);
+                getMessage().get().sendTo(player);
             } else {
-                getMessage().get().send(player, params);
+                getMessage().get().sendTo(player, params);
             }
         }
 
